@@ -15,7 +15,6 @@ public:
                 }else{
                     dp[i][j] = max(dp[i-1][j],nums[i-1]+dp[i-1][j-nums[i-1]]);
                 }
-                cout<<dp[i][j]<<" ";
             }
         }
         return (total-dp[n][m])-dp[n][m];
