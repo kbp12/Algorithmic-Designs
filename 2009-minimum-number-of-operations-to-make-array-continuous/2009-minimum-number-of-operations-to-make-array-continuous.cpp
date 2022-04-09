@@ -14,16 +14,12 @@ public:
         }
         int m = nums.size();
         int ans = n;
-        for(int i=0;i<m;i++){
-            int j;
-            auto it = upper_bound(nums.begin(),nums.end(),nums[i]+n-1);
-            if(it != nums.end()){
-                j = it - nums.begin();
-                ans = min(ans,n-(j-i));
-            }else{
-                ans = min(ans,n-(m-i));
-            }
-            
+        int i=0;
+        int j = 0;
+        while(i<m){
+            while(j<m && nums[j]<nums[i]+n) j++;
+            ans = min(ans,n-(j-i));
+            i++;
         }
         return ans;
     }
