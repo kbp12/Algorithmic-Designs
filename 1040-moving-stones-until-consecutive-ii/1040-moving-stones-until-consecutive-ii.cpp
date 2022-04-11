@@ -8,15 +8,12 @@ public:
             mini=0;
         else if((stones[n-2]-stones[0]==n-2 || stones[n-1]-stones[1]==n-2)){
             mini = 2;
-            if(stones[1]-stones[0]==2 || stones[n-1]-stones[n-2]==2) mini=1;        
+            if(stones[1]-stones[0]==2 || stones[n-1]-stones[n-2]==2) mini=1;   
         }else{
             while(i<n){
                 if(stones[j]-stones[i]<=n-1){
                     while(j<n && stones[j]-stones[i]<=n-1) 
                         j++;
-                    mini = min(mini,n-(j-i));
-                }else{
-                    while(i<j && stones[j]-stones[i]>n-1) i++;
                     mini = min(mini,n-(j-i));
                 }
                 i++;
