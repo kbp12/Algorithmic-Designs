@@ -3,7 +3,6 @@ public:
     vector<vector<string>>ans;
     bool issafe(int r,int c, vector<string>& res){
         for(int i=0;i<res.size();i++){if(i!=r && res[i][c]=='Q') return false;}
-        for(int i=0;i<res[0].size();i++){if(i!=c && res[r][i]=='Q') return false;}
         for(int i=r,j=c;i>=0 && j>=0;i--,j--){if(res[i][j]=='Q') return false;}
         for(int i=r,j=c;i>=0 && j<res[0].size();i--,j++){if(res[i][j]=='Q') return false;}
         return true;    
