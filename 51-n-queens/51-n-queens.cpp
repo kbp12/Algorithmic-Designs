@@ -1,32 +1,31 @@
 class Solution {
 public:
     vector<vector<string>>ans;
-    bool issafe(int r,int c, vector<string>& res){
-        for(int i=0;i<res.size();i++){if(i!=r && res[i][c]=='Q') return false;}
-        for(int i=r,j=c;i>=0 && j>=0;i--,j--){if(res[i][j]=='Q') return false;}
-        for(int i=r,j=c;i>=0 && j<res[0].size();i--,j++){if(res[i][j]=='Q') return false;}
-        return true;    
+    bool issafe(int i, int j,int n, vector<string>&v){
+        for(int k=i-1;k>=0;k--){if(v[k][j]=='Q') return false;}
+        for(int x=i-1,y=j-1;x>=0&&y>=0;x--,y--){if(v[x][y]=='Q')return false;}
+        for(int x=i-1,y=j+1;x>=0&&y<n;x--,y++){if(v[x][y]=='Q') return false;}
+        return true;
     }
     
-    void backtrack(int row, int n, vector<string>& res){
-        if(row==n){ans.push_back(res); return;}
-        string temp = "";
-        for(int i=0;i<n;i++) temp+= '.';
-        res.push_back(temp);
+    void backtrack(int idx,int n, vector<string>&v){
+        if(idx==n){ans.push_back(v); return;}
         for(int i=0;i<n;i++){
-            if(issafe(row,i,res)){
-                res[row][i] = 'Q';
-                backtrack(row+1,n,res);
-                res[row][i] = '.';
+            if(issafe(idx,i,n,v)){
+                v[idx][i] = 'Q';
+                backtrack(idx+1,n,v);
+                v[idx][i] = '.';
             }
         }
-        res.pop_back();
         return;
     }
     
     vector<vector<string>> solveNQueens(int n) {
-        vector<string>res;
-        backtrack(0,n,res);
+        string s;
+        for(int i=0;i<n;i++) s.push_back('.');
+        vector<string>v;
+        for(int i=0;i<n;i++) v.push_back(s);
+        backtrack(0,n,v);
         return ans;
     }
 };
