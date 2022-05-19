@@ -1,57 +1,55 @@
 class NumArray {
 public:
-    vector<int>sum;
     vector<int>nums;
     int n;
+    vector<int>sums;
     
-    int constructst(int s, int e, int idx){
-        if(s==e){
-            sum[idx] = nums[s];
-            return nums[s];
+    int builtst(int start, int end, int i){
+        if(start==end){
+            sums[i] = nums[start];
+            return sums[i];
         }
-        int m = s+(e-s)/2;
-        sum[idx] = constructst(s,m,idx*2+1)+constructst(m+1,e,idx*2+2);
-        return sum[idx];
+        int mid = start+(end-start)/2;
+        sums[i] = builtst(start,mid,2*i+1)+builtst(mid+1,end,2*i+2);
+        return sums[i];
     }
     
-    NumArray(vector<int>& nums2) {
+    NumArray(vector<int>& nums2){
+        n = nums2.size();
         nums = nums2;
-        n = nums.size();
-        sum.resize(4*n);
-        constructst(0,n-1,0);
+        sums.resize(4*n);
+        builtst(0,n-1,0);
     }
     
-    void updatest(int s, int e, int idx, int d, int i){
-        if(idx<s || idx>e) return;
-        sum[i]+= d;
-        if(s==e) return;
-        int m = (s+e)/2;
-        updatest(s,m,idx,d,2*i+1);
-        updatest(m+1,e,idx,d,2*i+2);
+    void updatest(int start, int end, int diff, int i, int idx){
+        if(idx<start || idx>end) return;
+        sums[i]+=diff;
+        if(start==end) return;
+        int mid = start+(end-start)/2;
+        updatest(start,mid,diff,2*i+1,idx);
+        updatest(mid+1,end,diff,2*i+2,idx);
         return;
     }
     
-    void update(int idx, int val) {
-        int d = val-nums[idx];
-        nums[idx] = val;
-        updatest(0,n-1,idx,d,0);
+    void update(int index, int val){
+        int diff = val-nums[index];
+        nums[index] = val;
+        updatest(0,n-1,diff,0,index);
+        return;
     }
     
-    int getsum(int s, int e, int l, int r, int idx){
-        if(l<=s && r>=e){
-            return sum[idx];
-        }
-        if(l>e || r<s){
-            return 0;
-        }
-        int m = s+(e-s)/2;
-        return getsum(s,m,l,r,2*idx+1)+getsum(m+1,e,l,r,2*idx+2);
+    int sumst(int start, int end, int l, int r, int i){
+        if(l>end || r<start) return 0;
+        if(l<=start && end<=r) return sums[i];
+        int mid = start+(end-start)/2;
+        return sumst(start,mid,l,r,2*i+1)+sumst(mid+1,end,l,r,2*i+2);
     }
     
-    int sumRange(int left, int right) {
-        return getsum(0,n-1,left,right,0);
+    int sumRange(int l, int r){
+        return sumst(0,n-1,l,r,0);
     }
 };
+
 /**
  * Your NumArray object will be instantiated and called as such:
  * NumArray* obj = new NumArray(nums);
