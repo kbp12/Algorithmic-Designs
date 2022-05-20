@@ -16,6 +16,8 @@ public:
             }
         }
         sort(v.begin(),v.end());
+        vector<int>vx = {-1,0,0,1};
+        vector<int>vy = {0,1,-1,0};
         int cx = 0, cy = 0;
         int ans = 0;
         for(int i=0;i<v.size();i++){
@@ -34,21 +36,12 @@ public:
                         found = true;
                         break;
                     }
-                    if(ispoint(a-1,b,m,n) && f[a-1][b]!=0 && visit[a-1][b]==false){
-                        visit[a-1][b] = true;
-                        q.push({a-1,b});
-                    }
-                    if(ispoint(a+1,b,m,n) && f[a+1][b]!=0 && visit[a+1][b]==false){
-                        visit[a+1][b] = true;
-                        q.push({a+1,b});
-                    }
-                    if(ispoint(a,b-1,m,n) && f[a][b-1]!=0 && visit[a][b-1]==false){
-                        visit[a][b-1] = true;
-                        q.push({a,b-1});
-                    }
-                    if(ispoint(a,b+1,m,n) && f[a][b+1]!=0 && visit[a][b+1]==false){
-                        visit[a][b+1] = true;
-                        q.push({a,b+1});
+                    for(int k=0;k<4;k++){
+                        int x1 = a+vx[k], y1 = b+vy[k];
+                        if(ispoint(x1,y1,m,n) && f[x1][y1]!=0 && visit[x1][y1]==false){
+                            visit[x1][y1] = true;
+                            q.push({x1,y1});
+                        }
                     }
                 }
                 if(found) break;
