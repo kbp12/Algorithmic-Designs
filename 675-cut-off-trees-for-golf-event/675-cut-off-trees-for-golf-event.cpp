@@ -26,8 +26,8 @@ public:
             queue<pair<int,int>>q;
             q.push({cx,cy});
             bool found = false;
-            vector<vector<bool>>visit(m,vector<bool>(n,false));
-            visit[cx][cy] = true;
+            vector<vector<char>>visit(m,vector<char>(n,'f'));
+            visit[cx][cy] = 't';
             while(!q.empty()){
                 int s = q.size();
                 for(int j=0;j<s;j++){
@@ -38,8 +38,8 @@ public:
                     }
                     for(int k=0;k<4;k++){
                         int x1 = a+vx[k], y1 = b+vy[k];
-                        if(ispoint(x1,y1,m,n) && f[x1][y1]!=0 && visit[x1][y1]==false){
-                            visit[x1][y1] = true;
+                        if(ispoint(x1,y1,m,n) && f[x1][y1]!=0 && visit[x1][y1]=='f'){
+                            visit[x1][y1] = 't';
                             q.push({x1,y1});
                         }
                     }
