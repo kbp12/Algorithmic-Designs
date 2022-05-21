@@ -1,18 +1,21 @@
 class Solution {
 public:
-    int coinChange(vector<int>& coins, int am) {
+    int coinChange(vector<int>& coins, int a) {
         int n = coins.size();
-        vector<vector<int>>dp(am+1,vector<int>(n+1,0));
-        for(int i=1;i<=am;i++) dp[i][0] = INT_MAX;
-        for(int i=1;i<=am;i++){
-            for(int j=1;j<=n;j++){
-                dp[i][j] = dp[i][j-1];
-                if(i-coins[j-1]>=0 && dp[i-coins[j-1]][j]!=INT_MAX){
-                    dp[i][j] = min(dp[i][j],1+dp[i-coins[j-1]][j]);
-                } 
+        int dp[a+1];
+        dp[0] = 0;
+        sort(coins.begin(),coins.end());
+        for(int i=1;i<=a;i++){
+            dp[i] = INT_MAX;
+            for(auto j:coins){
+                if(i-j>=0){
+                    if(dp[i-j]!=INT_MAX){
+                        dp[i] = min(dp[i],1+dp[i-j]);
+                    }
+                }else break;
             }
         }
-        if(dp[am][n]==INT_MAX) return -1;
-        return dp[am][n];
+        if(dp[a]==INT_MAX) return -1;
+        return dp[a];
     }
 };
