@@ -39,14 +39,6 @@ public:
             unordered_set<string> visited;
             ans[i] = search(q[i][0],q[i][1],visited,mpp);
         }
-        return ans;
-        
-    }
-    
-
-    
-    
-    
-    
-
+        return ans;   
+    }    
 };
