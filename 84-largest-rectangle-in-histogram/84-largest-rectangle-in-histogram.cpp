@@ -14,18 +14,15 @@ public:
                 l[i] = -1;
             }
             st1.push(i);
-        }
-        for(int i=n-1;i>=0;i--){
-            while(st2.size() && h[st2.top()]>=h[i]){
+            while(st2.size() && h[st2.top()]>=h[n-1-i]){
                 st2.pop();
             }
             if(st2.size()){
-                r[i] = st2.top();
+                r[n-1-i] = st2.top();
             }else{
-                r[i] = n;
+                r[n-1-i] = n;
             }
-            st2.push(i);
-            
+            st2.push(n-1-i);
         }
         int ans = 0;
         for(int i=0;i<n;i++){
