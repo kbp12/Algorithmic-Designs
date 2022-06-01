@@ -2,14 +2,22 @@ class Solution {
 public:
     int maxChunksToSorted(vector<int>& arr) {
         int n = arr.size();
-        vector<int>v = arr;
-        sort(v.begin(),v.end());
-        set<int>s1,s2;
+        vector<bool>visit(n,false);
         int chunks = 0;
+        int m = 0;
         for(int i=0;i<n;i++){
-            s1.insert(arr[i]);
-            s2.insert(v[i]);
-            if(s1==s2) chunks++;
+            bool yes = true;
+            visit[arr[i]] = true;
+            m = max(m,arr[i]);
+            for(int j=m;j>=0;j--){
+                if(visit[j]==false){
+                    yes = false;
+                    break;
+                }
+            }
+            if(yes){
+                chunks++;
+            }
         }
         return chunks;
     }
