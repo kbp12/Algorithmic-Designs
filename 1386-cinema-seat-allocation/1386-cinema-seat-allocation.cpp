@@ -24,7 +24,6 @@ public:
                     ans++;
                 prev = r[i][0];
             }
-            cout<<ans<<" ";
         }
         if(r[m-1][1]==1) ans+=2;
         else if(r[m-1][1]<=5) ans++;
