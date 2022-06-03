@@ -1,17 +1,9 @@
 class Solution {
 public:
     vector<vector<string>>ans;
-    bool ispalindrome(int i, int j, string s){
-        while(i<j){
-            if(s[i]==s[j]){
-                i++; j--;
-            }else 
-                return false;
-        }
-        return true;
-    }
-    
-    void solve(int i, int n, string s,vector<string> temp){
+    vector<vector<bool>>dp;
+    string s;
+    void solve(int i, int n, vector<string>temp){
         if(i==n+1){
             ans.push_back(temp);
             return;
@@ -22,19 +14,33 @@ public:
             return;
         }
         for(int j=i;j<=n;j++){
-            if(ispalindrome(i,j,s)){
+            if(dp[i][j]){
                 temp.push_back(s.substr(i,j-i+1));
-                solve(j+1,n,s,temp);
+                solve(j+1,n,temp);
                 temp.pop_back();
             }
         }
         return;
     }
     
-    vector<vector<string>> partition(string s) {
+    vector<vector<string>> partition(string str) {
+        s = str;
         int n = s.length();
+        dp = vector<vector<bool>>(n,vector<bool>(n,false));
+        for(int i=0;i<n;i++){
+            dp[i][i] = true;
+            if(i!=n-1 && s[i]==s[i+1])
+                dp[i][i+1] = true;
+        }
+        for(int l = 2;l<n;l++){
+            for(int i=0;i<n-l;i++){
+                if(s[i]==s[i+l] && dp[i+1][i+l-1]){
+                    dp[i][i+l] = true;
+                }
+            }
+        }
         vector<string>temp;
-        solve(0,n-1,s,temp);
+        solve(0,n-1,temp);
         return ans;
     }
 };
