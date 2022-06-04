@@ -1,31 +1,39 @@
 class Solution {
 public:
     vector<vector<string>>ans;
-    bool issafe(int i, int j,int n, vector<string>&v){
-        for(int k=i-1;k>=0;k--){if(v[k][j]=='Q') return false;}
-        for(int x=i-1,y=j-1;x>=0&&y>=0;x--,y--){if(v[x][y]=='Q')return false;}
-        for(int x=i-1,y=j+1;x>=0&&y<n;x--,y++){if(v[x][y]=='Q') return false;}
+    bool isPossible(int i, int j, int n,vector<string>& temp){
+        for(int k=i-1;k>=0;k--){
+            if(temp[k][j]=='Q') return false;
+        }
+        for(int x = i-1, y = j-1;x>=0 && y>=0; x--,y--){
+            if(temp[x][y]=='Q') return false;
+        }
+        for(int x = i-1, y = j+1;x>=0 && y<n;x--,y++){
+            if(temp[x][y]=='Q') return false;
+        }
         return true;
     }
     
-    void backtrack(int idx,int n, vector<string>&v){
-        if(idx==n){ans.push_back(v); return;}
-        for(int i=0;i<n;i++){
-            if(issafe(idx,i,n,v)){
-                v[idx][i] = 'Q';
-                backtrack(idx+1,n,v);
-                v[idx][i] = '.';
+    void backtrack(int i, int n, vector<string>& temp){
+        if(i==n){
+            ans.push_back(temp);
+            return;
+        }
+        for(int k=0;k<n;k++){
+            if(isPossible(i,k,n,temp)){
+                temp[i][k] = 'Q';
+                backtrack(i+1,n,temp);
+                temp[i][k] = '.';
             }
         }
         return;
     }
-    
     vector<vector<string>> solveNQueens(int n) {
-        string s;
+        vector<string>temp(n);
+        string s="";
         for(int i=0;i<n;i++) s.push_back('.');
-        vector<string>v;
-        for(int i=0;i<n;i++) v.push_back(s);
-        backtrack(0,n,v);
+        for(int i=0;i<n;i++) temp[i] = s;
+        backtrack(0,n,temp);
         return ans;
     }
 };
