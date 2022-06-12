@@ -1,37 +1,50 @@
 class Solution {
 public:
     int ans = INT_MAX;
-    void solve(vector<int>cookies,int k, int i,int n, int c,vector<vector<int>>v){
-        if(i==n){
-            if(c==k){
-                int res = 0;
-                for(int j=0;j<k;j++){
-                    int s = 0;
-                    for(auto it:v[j]) s+=it;
-                    res = max(res,s);
+    void PartitionSub(int arr[], int i,int N, int K, int nos,vector<vector<int> >& v)
+{
+    if (i >= N) {
+        if (nos == K) {
+            int maxsum = 0;
+            for (int x = 0; x < v.size(); x++) {
+                int sum = 0;
+                for (int y = 0; y < v[x].size(); y++) {
+                    sum+=v[x][y];
+                    
                 }
-                ans = min(ans,res);
+                maxsum = max(maxsum,sum);
             }
-            return;
+            ans= min(ans,maxsum);
         }
-        for(int j=0;j<k;j++){
-            if(v[j].size()){
-                v[j].push_back(cookies[i]);
-                solve(cookies,k,i+1,n,c,v);
-                v[j].pop_back();
-            }else{
-                v[j].push_back(cookies[i]);
-                solve(cookies,k,i+1,n,c+1,v);
-                break;
-            }
-        }
+ 
         return;
     }
-    
+ 
+    for (int j = 0; j < K; j++) {
+ 
+        if (v[j].size() > 0) {
+            v[j].push_back(arr[i]);
+ 
+            PartitionSub(arr, i + 1, N, K, nos, v);
+
+            v[j].pop_back();
+        }
+        else {
+ 
+            v[j].push_back(arr[i]);
+            PartitionSub(arr, i + 1, N, K, nos + 1, v);
+            v[j].pop_back();
+            break;
+        }
+    }
+}
+ 
     int distributeCookies(vector<int>& cookies, int k) {
         int n = cookies.size();
+        int arr[n];
+        for(int i=0;i<n;i++) arr[i] = cookies[i];
         vector<vector<int>>v(k);
-        solve(cookies,k,0,n,0,v);
+        PartitionSub(arr,0,n,k,0,v);
         return ans;
     }
 };
