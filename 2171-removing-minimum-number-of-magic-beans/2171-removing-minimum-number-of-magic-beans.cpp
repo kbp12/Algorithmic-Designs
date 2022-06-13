@@ -1,18 +1,15 @@
 class Solution {
 public:
-    long long minimumRemoval(vector<int>& a) {
-        int n = a.size();
-        sort(a.begin(),a.end());
-        long long sum = 0;
-        for(int i=0;i<n;i++) sum+= a[i];
-        long long ans = sum;
-        long long prev = 0;
+    long long minimumRemoval(vector<int>& b) {
+        sort(b.begin(),b.end());
+        int n = b.size();
+        long long sum = 0,ans;
+        for(int i=0;i<n;i++) sum+=b[i];
+        ans = sum;
         for(int i=0;i<n;i++){
-            long long temp = (n-i);
-            temp*=a[i];
-            ans = min(ans,prev+sum-temp);
-            prev+=a[i];
-            sum-=a[i];
+            long long temp = n-i;
+            temp*=b[i];
+            ans = min(ans,sum-temp);
         }
         return ans;
     }
