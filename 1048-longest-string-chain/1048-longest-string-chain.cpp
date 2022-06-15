@@ -25,7 +25,7 @@ public:
         for(int i=0;i<n;i++){
             dp[i] = 1;
             for(int j=i-1;j>=0;j--){
-                if(words[j].length()==words[i].length()-1){
+                if(words[j].length()==words[i].length()-1 && dp[j]>=dp[i]){
                     if(check(words[i],words[j])){
                         dp[i] = max(dp[i],1+dp[j]);
                     }
