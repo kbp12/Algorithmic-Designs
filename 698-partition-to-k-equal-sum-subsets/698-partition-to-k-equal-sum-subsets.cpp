@@ -1,6 +1,6 @@
 class Solution {
 public:
-    bool solve(int i, int n, int k, int a[], int total[], int sum){
+    bool backtrack(int i, int n, int k, int a[], int total[], int sum){
         if(i==n){
             return true;
         }
@@ -8,7 +8,7 @@ public:
             if(total[j]!=0){
                 if(total[j]+a[i]<=sum){
                     total[j]+=a[i];
-                    if(solve(i+1,n,k,a,total,sum)){
+                    if(backtrack(i+1,n,k,a,total,sum)){
                         return true;
                     }
                     total[j]-=a[i];
@@ -16,7 +16,7 @@ public:
             }else{
                 if(total[j]+a[i]<=sum){
                     total[j]+=a[i];
-                    if(solve(i+1,n,k,a,total,sum)){
+                    if(backtrack(i+1,n,k,a,total,sum)){
                         return true;
                     }
                     total[j]-=a[i];
@@ -43,7 +43,7 @@ public:
          sum = sum/k;
          int total[k];
          for(int i=0;i<k;i++) total[i] = 0;
-         if(solve(0,n,k,a,total,sum)){
+         if(backtrack(0,n,k,a,total,sum)){
              return true;
          }
          return false;
