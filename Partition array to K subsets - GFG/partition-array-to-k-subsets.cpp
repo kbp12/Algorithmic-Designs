@@ -49,8 +49,7 @@ class Solution{
          sum = sum/k;
          int total[k];
          for(int i=0;i<k;i++) total[i] = 0;
-         total[0] = a[0];
-         if(solve(1,n,k,a,total,sum)){
+         if(solve(0,n,k,a,total,sum)){
              return true;
          }
          return false;
