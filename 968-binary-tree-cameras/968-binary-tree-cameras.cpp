@@ -11,26 +11,23 @@
  */
 class Solution {
 public:
-    int ans = 0;
-    unordered_set<TreeNode*>uset;
-    void dfs(TreeNode* root, TreeNode* parent){
-        if(root==NULL) return;
-        dfs(root->left,root);
-        dfs(root->right,root);
-        if((parent==NULL && uset.find(root)==uset.end()) || uset.find(root->left)==uset.end() || uset.find(root->right)==uset.end()){
+    int ans = 0, covered = 0, notcovered = 1, hascamera = 2;
+    
+    int dfs(TreeNode* root){
+        if(root==NULL) return covered;
+        int l = dfs(root->left), r = dfs(root->right);
+        if(l==notcovered || r==notcovered){
             ans++;
-            uset.insert(root);
-            uset.insert(parent);
-            uset.insert(root->left);
-            uset.insert(root->right);
+            return hascamera;
         }
-        return;
+        if(l==covered && r==covered){
+            return notcovered;
+        }
+        return covered;
     }
     
-    
     int minCameraCover(TreeNode* root) {
-        uset.insert(NULL);
-        dfs(root,NULL);
+        if(dfs(root)==notcovered) return ans+1;
         return ans;
     }
 };
