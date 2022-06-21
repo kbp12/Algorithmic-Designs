@@ -1,17 +1,20 @@
 class Solution {
 public:
-    int find(vector<int>& nums, int i, int j){
-        if(i==j) return nums[i];
-        if(i==j-1) return max(nums[i],nums[j]);
-        return max(nums[i]+min(find(nums,i+2,j),find(nums,i+1,j-1)),nums[j]+min(find(nums,i+1,j-1),find(nums,i,j-2)));
-    }   
-    
     bool PredictTheWinner(vector<int>& nums) {
-        int sum = 0;
-        for(auto num:nums) sum+=num;
-        int i=0, j=nums.size()-1;
-        int ans = find(nums,i,j);
-        if(ans>=(sum-ans)) return true;
+        int n = nums.size();
+        long long sum[n+1]; sum[0] = 0;
+        for(int i=0;i<n;i++) sum[i+1] = sum[i]+nums[i];
+        long long dp[n][n];
+        for(int i=0;i<n;i++){
+            dp[i][i] = nums[i];
+            if(i!=n-1) dp[i][i+1] = max(nums[i],nums[i+1]);
+        }
+        for(int l=2;l<n;l++){
+            for(int i=0;i<n-l;i++){
+                dp[i][i+l] = sum[i+l+1]-sum[i]-min(dp[i+1][i+l],dp[i][i+l-1]);
+            }
+        }
+        if(dp[0][n-1]>=(sum[n]-dp[0][n-1])) return true;
         return false;
     }
 };
