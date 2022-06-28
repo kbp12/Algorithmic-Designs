@@ -11,6 +11,8 @@ public:
                 minidx =i+1;
             }
         }
-        return min(max(minidx,maxidx),min((min(minidx,maxidx)+n+1-max(minidx,maxidx)),n+1-min(minidx,maxidx)));
+        return min(max(minidx,maxidx),
+                   min((min(minidx,maxidx)+n+1-max(minidx,maxidx)),
+                       n+1-min(minidx,maxidx)));
     }
 };
