@@ -1,51 +1,53 @@
 class Solution {
 public:
-    int maximalRectangle(vector<vector<char>>& matrix) {
-        int m = matrix.size();
-        int n = matrix[0].size();
-        vector<vector<int>>mat(m,vector<int>(n,0));
-        for(int i=0;i<m;i++){
-            for(int j=0;j<n;j++){
-                mat[i][j] = matrix[i][j]-'0';
+    int maximalRectangle(vector<vector<char>>& mat) {
+        int rows = mat.size();
+        int cols = mat[0].size();
+        int matrix[rows][cols];
+        for(int i=0;i<rows;i++){
+            for(int j=0;j<cols;j++){
+                matrix[i][j] = mat[i][j]-'0';
             }
         }
+        stack<int>st;
         int ans = 0;
-        for(int i=0;i<m;i++){
-            stack<int>s,t;
-            int a = 0;
-            vector<int>l(n),r(n);
+        for(int i=0;i<rows;i++){
             if(i!=0){
-                for(int j=0;j<n;j++){
-                    if(mat[i][j])
-                        mat[i][j]+=mat[i-1][j];
+                for(int j=0;j<cols;j++){
+                    if(matrix[i][j]==1){
+                        matrix[i][j]+=matrix[i-1][j];
+                    }
                 }
             }
-            
-            for(int j=0;j<n;j++){
-                while(s.size() && mat[i][s.top()]>=mat[i][j]){
-                    s.pop();
+            vector<int>left(cols,0), right(cols,0);
+            for(int j=0;j<cols;j++){
+                while(st.size() && matrix[i][st.top()]>=matrix[i][j]){
+                    st.pop();
                 }
-                if(s.size()){
-                    l[j] = s.top();
+                if(st.size()){
+                    left[j] = st.top();
                 }else{
-                    l[j] = -1;
+                    left[j] = -1;
                 }
-                s.push(j);
-                while(t.size() && mat[i][t.top()]>=mat[i][n-1-j]){
-                    t.pop();
+                st.push(j);
+            }
+            while(st.size()){st.pop();}
+            for(int j=cols-1;j>=0;j--){
+                while(st.size() && matrix[i][st.top()]>=matrix[i][j]){
+                    st.pop();
                 }
-                if(t.size()){
-                    r[n-1-j] = t.top();
+                if(st.size()){
+                    right[j] = st.top();
                 }else{
-                    r[n-1-j] = n;
+                    right[j] = cols;
                 }
-                t.push(n-1-j);
+                st.push(j);
             }
-            
-            for(int j=0;j<n;j++){
-                a = max(a,mat[i][j]*(r[j]-l[j]-1));
+            while(st.size()){st.pop();}
+            for(int j=0;j<cols;j++){
+                ans = max(ans,(right[j]-left[j]-1)*matrix[i][j]);
+                //cout<<ans<<" ";
             }
-            ans = max(ans,a);
         }
         return ans;
     }
