@@ -3,10 +3,9 @@ public:
     string maximumBinaryString(string s) {
         int n = s.length();
         int c=0;
-        int last = -1;
         for(int i=0;i<n;i++){
             if(s[i]=='0'){
-                c++; last = i;
+                c++;
             }
         }
         int i=0;
