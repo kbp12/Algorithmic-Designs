@@ -1,34 +1,52 @@
 class Solution {
 public:
-    vector<vector<int>> graph;
-    vector<int> ranks;
-
-    vector<vector<int>> criticalConnections(int n, vector<vector<int>>& connections) {
-        graph.resize(n);
-        for (auto& conn : connections) {
-            graph[conn[0]].push_back(conn[1]);
-            graph[conn[1]].push_back(conn[0]);
+    vector<int>low;
+    vector<int>tin;
+    vector<bool>visited;
+    vector<vector<int>>ans;
+    int timer;
+    
+    void dfs(vector<int>adj[], int node, int par){
+        visited[node] = true;
+        low[node] = timer;
+        tin[node] = timer;
+        timer++;
+        for(auto next:adj[node]){
+            if(next == par){
+                continue;
+            }else if(!visited[next]){
+                dfs(adj,next,node);
+                low[node] = min(low[node],low[next]);
+                if(low[next]>tin[node]){
+                    ans.push_back({node,next});
+                }
+            }else{
+                low[node] = min(low[node],low[next]);
+            }
         }
-        ranks.resize(n, -2);
-
-        vector<vector<int>> res;
-        dfs(0, 0, res);        
-        return res;
+        return;
     }
-
-    int dfs(int node, int rank, vector<vector<int>>& res) {
-        if (ranks[node] >= 0) return ranks[node];
-
-        ranks[node] = rank;
-        int minRank = rank;
-        
-        for (auto neighbor : graph[node]) {
-            if (ranks[neighbor] == rank - 1 || ranks[neighbor] > rank) continue;
-
-            int neighborRank = dfs(neighbor, rank + 1, res);
-            minRank = min(minRank, neighborRank);
-            if (neighborRank > rank) res.push_back({node, neighbor});
+    
+    void dfs_loop(vector<int>adj[], int n){
+        for(int i=0;i<n;i++){
+            if(!visited[i]){
+                dfs(adj,i,-1);
+            }
         }
-        return minRank;
+    }
+    
+    vector<vector<int>> criticalConnections(int n, vector<vector<int>>& connections) {
+        vector<int>adj[n];
+        for(auto c:connections){
+            adj[c[0]].push_back(c[1]);
+            adj[c[1]].push_back(c[0]);
+        }
+        ans.clear();
+        timer = 0;
+        low.assign(n,-1);
+        tin.assign(n,-1);
+        visited.assign(n,false);
+        dfs_loop(adj,n);
+        return ans;
     }
 };
