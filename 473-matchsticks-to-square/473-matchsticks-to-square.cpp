@@ -1,7 +1,7 @@
 class Solution {
 public:
     int s;
-    vector<int>dp;
+    int dp[4] = {0};
     int a[15];
     bool backtrack(int i, int n){
         if(i==n){
@@ -29,7 +29,6 @@ public:
         }
         if(s%4) return false;
         s = s/4;
-        dp.assign(4,0);
         return backtrack(0,n);
     }
 };
