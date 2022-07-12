@@ -20,13 +20,13 @@ public:
     } 
     
     bool makesquare(vector<int>& arr) {
+        sort(arr.begin(),arr.end(),greater<int>());
         int n = arr.size();
         for(int i=0;i<n;i++) a[i] = arr[i];
         s = 0;
         for(int i=0;i<n;i++){
             s+=a[i];
         }
-        sort(a,a+n,greater<int>());
         if(s%4) return false;
         s = s/4;
         return backtrack(0,n);
