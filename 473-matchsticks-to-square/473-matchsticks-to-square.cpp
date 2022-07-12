@@ -2,8 +2,8 @@ class Solution {
 public:
     int s;
     vector<int>dp;
-    
-    bool backtrack(int i, int n, vector<int>&a){
+    int a[15];
+    bool backtrack(int i, int n, int a[]){
         if(i==n){
             return true;
         }
@@ -19,9 +19,10 @@ public:
         return false;
     } 
     
-    bool makesquare(vector<int>& a) {
-        sort(a.begin(),a.end(),greater<int>());
-        int n = a.size();
+    bool makesquare(vector<int>& arr) {
+        sort(arr.begin(),arr.end(),greater<int>());
+        int n = arr.size();
+        for(int i=0;i<n;i++) a[i] = arr[i];
         s = 0;
         for(int i=0;i<n;i++){
             s+=a[i];
