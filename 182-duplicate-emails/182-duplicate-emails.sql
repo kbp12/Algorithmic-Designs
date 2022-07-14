@@ -1,5 +1,9 @@
 # Write your MySQL query statement below
-SELECT DISTINCT a.email as Email
-FROM Person a, Person b
-WHERE a.id <> b.id
-    AND a.email = b.email;
+SELECT email as Email 
+FROM (
+        SELECT email, count(email) as num
+        FROM Person
+        GROUP BY email
+    ) as statistic
+    WHERE num>1
+    ;
