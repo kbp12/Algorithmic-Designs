@@ -1,36 +1,22 @@
 class KthLargest {
 public:
-    int x;
-    vector<int>ans;
-    KthLargest(int k, vector<int>& nums) {
-        x = k;
-        sort(nums.begin(),nums.end());
-        int n = nums.size();
-        for(int i=max(0,n-k);i<n;i++){
-            ans.push_back(nums[i]);
+    int k;
+    priority_queue<int,vector<int>,greater<int>>pq;
+    KthLargest(int K, vector<int>& nums) {
+        for(auto num:nums){
+            pq.push(num);
         }
-        return;
+        k = K;
+        while(pq.size()>k){
+            pq.pop();
+        }
     }
     
     int add(int val) {
-        if(ans.size()<x){
-            ans.push_back(val);
-            sort(ans.begin(),ans.end());
-            return ans[0];
-        }
-        if(val<=ans[0]) return ans[0];
-        int n = ans.size();
-        if(n==1) ans[0] = max(ans[0],val);
-        for(int i=1;i<n;i++){
-            if(ans[i]<val){
-                ans[i-1] = ans[i];
-            }else{
-                ans[i-1] = val;
-                break;
-            }
-        }
-        if(val>ans[n-1]) ans[n-1] = val;
-        return ans[0];
+        pq.push(val);
+        if(pq.size()>k)
+            pq.pop();
+        return pq.top(); 
     }
 };
 
