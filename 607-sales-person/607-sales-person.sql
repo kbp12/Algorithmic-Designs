@@ -1,14 +1,17 @@
-SELECT
-    s.name
-FROM
-    salesperson s
-WHERE
-    s.sales_id NOT IN (SELECT
-            o.sales_id
-        FROM
-            orders o
-                LEFT JOIN
-            company c ON o.com_id = c.com_id
-        WHERE
-            c.name = 'RED')
+# Write your MySQL query statement below
+SELECT SalesPerson.name
+FROM SalesPerson
+WHERE SalesPerson.sales_id NOT IN (
+    SELECT Orders.sales_id
+    FROM Orders
+    WHERE Orders.com_id IN (
+        SELECT Company.com_id
+        FROM Company
+        WHERE Company.name = 'RED'
+        )
+   )
 ;
+
+
+
+
