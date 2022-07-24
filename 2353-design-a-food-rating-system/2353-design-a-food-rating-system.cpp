@@ -1,15 +1,14 @@
 class FoodRatings {
 public:
-    map<string,string> link;
-    map<string,int> rat;
-    map<string,set<pair<int,string>>> cus;
+    map<string,string>link;
+    map<string,int>rat;
+    map<string,set<pair<int,string>>>cus;
     FoodRatings(vector<string>& f, vector<string>& c, vector<int>& r) {
         int n = f.size();
         for(int i=0;i<n;i++){
             link[f[i]] = c[i];
             rat[f[i]] = r[i];
         }
-        
         for(int i=0;i<n;i++){
             cus[c[i]].insert({r[i],f[i]});
         }
@@ -17,18 +16,18 @@ public:
     }
     
     void changeRating(string food, int nr) {
-        
         cus[link[food]].erase(cus[link[food]].find({rat[food],food}));
         cus[link[food]].insert({nr,food});
         rat[food]=nr;
-        return ;
+        return;
     }
     
-    string highestRated(string cuisine) {
-        pair<int,string> pa =  *(cus[cuisine].rbegin());
-        string res = pa.second;
-        for(auto itr=(cus[cuisine].rbegin());itr!=(cus[cuisine].rend());itr++){
-            if(itr->first != pa.first) 
+    string highestRated(string c) {
+        pair<int,string>rat_food =  *(cus[c].rbegin());
+        string res = rat_food.second;
+        
+        for(auto itr=(cus[c].rbegin());itr!=(cus[c].rend());itr++){
+            if(itr->first != rat_food.first) 
                 return res;
             else 
                 res = itr->second;
