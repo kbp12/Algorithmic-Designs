@@ -10,4 +10,4 @@ union
 select product_id,"store3" as store, store3 as price
 from Products
 where store3 is not null
-order by store;
+-- order by store;
