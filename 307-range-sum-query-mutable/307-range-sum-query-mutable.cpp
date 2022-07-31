@@ -14,13 +14,6 @@ public:
         return sums[i];
     }
     
-    NumArray(vector<int>& nums2){
-        n = nums2.size();
-        nums = nums2;
-        sums.resize(4*n);
-        builtst(0,n-1,0);
-    }
-    
     void updatest(int start, int end, int diff, int i, int idx){
         if(idx<start || idx>end) return;
         sums[i]+=diff;
@@ -31,18 +24,25 @@ public:
         return;
     }
     
-    void update(int index, int val){
-        int diff = val-nums[index];
-        nums[index] = val;
-        updatest(0,n-1,diff,0,index);
-        return;
-    }
-    
     int sumst(int start, int end, int l, int r, int i){
         if(l>end || r<start) return 0;
         if(l<=start && end<=r) return sums[i];
         int mid = start+(end-start)/2;
         return sumst(start,mid,l,r,2*i+1)+sumst(mid+1,end,l,r,2*i+2);
+    }
+    
+    NumArray(vector<int>& nums2){
+        n = nums2.size();
+        nums = nums2;
+        sums.resize(4*n);
+        builtst(0,n-1,0);
+    }
+    
+    void update(int index, int val){
+        int diff = val-nums[index];
+        nums[index] = val;
+        updatest(0,n-1,diff,0,index);
+        return;
     }
     
     int sumRange(int l, int r){
