@@ -1,32 +1,34 @@
 class Solution {
 public:
-    vector<int> findOrder(int n, vector<vector<int>>& prereq) {
-        int m = prereq.size();
-        vector<vector<int>>adj(n);
-        vector<int>indegree(n,0);
-        for(int i=0;i<m;i++){
-            adj[prereq[i][1]].push_back(prereq[i][0]);
-            indegree[prereq[i][0]]++;
+    vector<int> findOrder(int numCourses, vector<vector<int>>& prereq) {
+        vector<vector<int>>g(numCourses);
+        vector<int>indeg(numCourses,0);
+        for(auto p:prereq){
+            g[p[1]].push_back(p[0]);
+            indeg[p[0]]++;
         }
         vector<int>ans;
         queue<int>q;
-        for(int i=0;i<n;i++){
-            if(indegree[i]==0){
+        for(int i=0;i<numCourses;i++){
+            if(indeg[i]==0){
                 ans.push_back(i);
                 q.push(i);
             }
         }
         while(!q.empty()){
-            int f = q.front(); q.pop();
-            for(auto next:adj[f]){
-                indegree[next]--;
-                if(indegree[next]==0){
-                    ans.push_back(next);
-                    q.push(next);
+            int siz = q.size();
+            for(int i=0;i<siz;i++){
+                int f = q.front(); q.pop();
+                for(auto adj:g[f]){
+                    indeg[adj]--;
+                    if(indeg[adj]==0){
+                        q.push(adj);
+                        ans.push_back(adj);
+                    }
                 }
             }
         }
-        if(ans.size()==n) return ans;
-        return {};
+        if(ans.size()!=numCourses) return {};
+        return ans;
     }
 };
