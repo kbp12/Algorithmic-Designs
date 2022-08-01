@@ -1,31 +1,28 @@
 class Solution {
 public:
-    int dis(vector<vector<int>>& matrix, int i,int j, int m, int n,vector<vector<int>>& dp){
-        if(dp[i][j]) return dp[i][j];
-        int a=1,b=1,c=1,d=1;
-        if(i>0 && matrix[i-1][j]>matrix[i][j])
-            a+=dis(matrix,i-1,j,m,n,dp);
-        if(j>0 && matrix[i][j-1]>matrix[i][j])
-            b+=dis(matrix,i,j-1,m,n,dp);
-        if(i<m-1 && matrix[i+1][j]>matrix[i][j])
-            c+=dis(matrix,i+1,j,m,n,dp);
-        if(j<n-1 && matrix[i][j+1]>matrix[i][j])
-            d+=dis(matrix,i,j+1,m,n,dp);
-        
-        dp[i][j] = max({a,b,c,d});
-        return dp[i][j];
+    vector<vector<int>>dp;
+    bool ispoint(int i,int j,int n,int m){
+        return i>=0 and j>=0 and i<n and j<m;
     }
     
+    int bfs(int i,int j,int n,int m,vector<vector<int>>&matrix){
+        if(dp[i][j]) return dp[i][j];
+        int c = 1;
+        if(ispoint(i-1,j,n,m) and matrix[i-1][j]>matrix[i][j]) c = max(bfs(i-1,j,n,m,matrix)+1,c);
+        if(ispoint(i+1,j,n,m) and matrix[i+1][j]>matrix[i][j]) c = max(bfs(i+1,j,n,m,matrix)+1,c);
+        if(ispoint(i,j-1,n,m) and matrix[i][j-1]>matrix[i][j]) c = max(bfs(i,j-1,n,m,matrix)+1,c);
+        if(ispoint(i,j+1,n,m) and matrix[i][j+1]>matrix[i][j]) c = max(bfs(i,j+1,n,m,matrix)+1,c);
+        return dp[i][j] = c;
+    }
     int longestIncreasingPath(vector<vector<int>>& matrix) {
-        int m = matrix.size();
-        int n = matrix[0].size();
-        int c = 0;
+        int n = matrix.size();
+        int m = matrix[0].size();
+        dp = vector<vector<int>> (n,vector<int>(m,0));
         int ans = 0;
-        vector<vector<int>>dp(m,vector<int>(n,0));
-        for(int i=0;i<m;i++){
-            for(int j=0;j<n;j++){
-                c = dis(matrix,i,j,m,n,dp);
-                if(c>ans) ans = c;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                bfs(i,j,n,m,matrix);
+                ans = max(ans,dp[i][j]);
             }
         }
         return ans;
