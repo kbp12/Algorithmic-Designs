@@ -7,7 +7,7 @@ public:
         for(int i=0;i<n;i++){
             int x = p[i][0], y = p[i][1];
             int same = 0;
-            map<double,int>mpp;
+            unordered_map<double,int>mpp;
             for(int j=0;j<n;j++){
                 if(p[j][0]==x and p[j][1]==y){
                     same++;
