@@ -9,10 +9,10 @@ public:
     
     void dfs(vector<vector<char>>& board, int i, int j){
         if(board[i][j]=='M' or board[i][j]=='B' or (board[i][j]>='1' and board[i][j]<='9')) return;
-        int count = 0;
+        int count = 0,a,b;
         for(int k=0;k<8;k++){
-            int a = i+xd[k];
-            int b = j+yd[k];
+            a = i+xd[k];
+            b = j+yd[k];
             if(isPoint(a,b)){
                 if(board[a][b]=='M'){
                     count++;
@@ -26,8 +26,8 @@ public:
         }
         if(board[i][j]=='B'){
             for(int k=0;k<8;k++){
-                int a = i+xd[k];
-                int b = j+yd[k];
+                a = i+xd[k];
+                b = j+yd[k];
                 if(isPoint(a,b)){
                     dfs(board,a,b);
                 }
