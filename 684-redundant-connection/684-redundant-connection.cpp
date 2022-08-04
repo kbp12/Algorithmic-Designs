@@ -44,7 +44,7 @@ public:
             int pb = dsu.find(b);
             if(pa==pb){
                 ans = edges[i];
-                break;
+                //break;
             }else{
                 dsu.merge(a,b);
             }
