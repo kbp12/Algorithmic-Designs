@@ -1,20 +1,34 @@
 class Solution {
 public:
-    bool PredictTheWinner(vector<int>& nums) {
-        int n = nums.size();
-        long long sum[n+1]; sum[0] = 0;
-        for(int i=0;i<n;i++) sum[i+1] = sum[i]+nums[i];
-        long long dp[n][n];
+    bool PredictTheWinner(vector<int>& a) {
+         int n = a.size();
+    vector<vector<int>>dp(n,vector<int>(n,0));
+    dp[0][0] = a[0];
+    int sum = a[0];
+    for(int i=1;i<n;i++){
+        dp[i][i] = a[i];
+        sum+=a[i];
+        dp[i-1][i] = max(a[i-1],a[i]);
+    }
+    
+    for(int len = 3;len<=n;len++){
         for(int i=0;i<n;i++){
-            dp[i][i] = nums[i];
-            if(i!=n-1) dp[i][i+1] = max(nums[i],nums[i+1]);
+            int j = i+len-1;
+            if(j>=n) break;
+            dp[i][j] = max({
+                a[i]+min({
+                    dp[i+2][j],dp[i+1][j-1]
+                }),
+                a[j]+min({
+                    dp[i][j-2],dp[i+1][j-1]
+                })
+            });
         }
-        for(int l=2;l<n;l++){
-            for(int i=0;i<n-l;i++){
-                dp[i][i+l] = sum[i+l+1]-sum[i]-min(dp[i+1][i+l],dp[i][i+l-1]);
-            }
-        }
-        if(dp[0][n-1]>=(sum[n]-dp[0][n-1])) return true;
+    }
+        //cout<<dp[0][n-1]<<endl;
+    int b  = 2*dp[0][n-1];
+        if(b>=sum) return true;
         return false;
+        
     }
 };
