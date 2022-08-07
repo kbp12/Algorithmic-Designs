@@ -10,7 +10,7 @@ public:
         int c = 1;
         set<int>s;
         for(auto rr:r){
-            s.insert(rr);
+            visit[rr] = true;
         }
         queue<int>q;
         q.push(0);
@@ -20,7 +20,7 @@ public:
             for(int i=0;i<siz;i++){
                 int f =  q.front(); q.pop();
                 for(auto ne:adj[f]){
-                    if(visit[ne]==false and s.find(ne)==s.end()){
+                    if(visit[ne]==false){
                         c++;
                         visit[ne] = true;
                         q.push(ne);
