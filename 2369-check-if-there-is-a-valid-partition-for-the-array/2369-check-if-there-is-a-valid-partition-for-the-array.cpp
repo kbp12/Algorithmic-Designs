@@ -64,13 +64,8 @@ public:
             }
         }
         
-        if(l[n-1] or r[0])
+        if(l[n-1])
             return true;
-        for(int i=0;i<n-1;i++){
-            if(l[i] and r[i+1]){
-                return true;
-            }
-        }
         return false;
     }
 };
