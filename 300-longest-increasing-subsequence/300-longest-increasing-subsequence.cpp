@@ -1,36 +1,28 @@
 class Solution {
 public:
-    // int replacing(int n, vector<int>& dp, int s){
-    //     int i =0;
-    //     int j = s-1;
-    //     while(i<=j){
-    //         int mid = (i+j)/2;
-    //         if(dp[mid]>=n){
-    //             j = mid-1;
-    //         }else{
-    //             i = mid+1;
-    //         }
-    //     }
-    //     return i;
-    // }
-    
-    int lengthOfLIS(vector<int>& nums) {
-        int n = nums.size();
-        vector<int>dp;
-        dp.push_back(nums[0]);
-        for(int i=1;i<n;i++){
-            int s = dp.size();
-            if(nums[i]>dp[s-1]){
-                dp.push_back(nums[i]);
+    int bs(vector<int>& lis, int t){
+        int i=0, j = lis.size()-1;
+        while(i<=j){
+            int m = i+(j-i)/2;
+            if(lis[m]<t){
+                i = m+1;
             }else{
-                int idx = lower_bound(dp.begin(),dp.end(),nums[i])-dp.begin();
-                dp[idx] = nums[i];
+                j = m-1;
             }
         }
-        
-        // for(int i=0;i<dp.size();i++)
-        //     cout<<dp[i]<<" ";
-        
-        return dp.size();
+        return i;
+    }
+    
+    int lengthOfLIS(vector<int>& nums) {
+        vector<int>lis;
+        for(auto num:nums){
+            int pos = bs(lis,num);
+            if(pos==lis.size()){
+                lis.push_back(num);
+            }else{
+                lis[pos] = num;
+            }
+        }
+        return lis.size();
     }
 };
