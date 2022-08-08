@@ -2,12 +2,12 @@ class Solution {
 public:
     int bs(vector<int>& dp, int t){
         int i = 0, j = dp.size()-1;
-        while(i<=j){
+        while(i<j){
             int m = i+(j-i)/2;
             if(dp[m]<=t){
                 i = m+1;
             }else{
-                j = m-1;
+                j = m;
             }
         }
         if(dp[i]<=t) return i+1;
