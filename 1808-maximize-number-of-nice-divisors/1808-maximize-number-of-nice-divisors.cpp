@@ -11,7 +11,7 @@ public:
         }else if(rem==2){
             rem--;
         }
-        int maxi = min(p,100000);
+        int maxi = min(p,10000);
         vector<long long>dp(maxi+1);
         dp[1] = 3;
         for(int i=2;i<=maxi;i++){
