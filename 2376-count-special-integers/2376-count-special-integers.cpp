@@ -17,9 +17,12 @@ public:
         }
         unordered_set<int> seen;
         for (int i = 0; i < n; i++) {
-            for (int j = i > 0 ? 0 : 1; j < digit[i]; j++) {
+            int dig = digit[i];
+            int j = 0;
+            if(i==0) j++;
+            for ( ; j < dig; j++) {
                 if (seen.find(j) == seen.end()) {
-                    result += permutation(9 - i, n - i - 1);
+                    result += permutation(9-i, n - i - 1);
                 }
             }
             if (seen.find(digit[i]) != seen.end()) {
