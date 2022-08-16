@@ -1,19 +1,22 @@
 class Solution {
 public:
     int firstUniqChar(string s) {
-        set<int>sett;
-        map<char,int>mpp;
-        for(int i=0;i<s.size();i++){
-            char ch = s[i];
-            if(mpp.find(ch)!=mpp.end()){
-                if(sett.find(mpp[ch])!=sett.end())
-                    sett.erase(sett.find(mpp[ch]));
+        int n = s.size();
+        vector<pair<int,int>>v(26,{-1,-1});
+        for(int i=0;i<n;i++){
+            int a = s[i]-'a';
+            if(v[a].first==-1){
+                v[a].first = v[a].second = i;
             }else{
-                sett.insert(i);
-                mpp[ch] = i;
+                v[a].second = i;
             }
         }
-        if(sett.size()) return *sett.begin();
-        return -1;
+        int ans = INT_MAX;
+        for(int i=0;i<26;i++){
+            if(v[i].first==v[i].second and v[i].first!=-1){
+                ans = min(ans,v[i].first);
+            }
+        }
+        return ans==INT_MAX?-1:ans;
     }
 };
