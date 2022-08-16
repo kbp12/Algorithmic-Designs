@@ -1,24 +1,16 @@
 class Solution {
 public:
     vector<int> amountPainted(vector<vector<int>>& paint) {
-        int n = paint.size();
-        vector<int>ans(n);
-        vector<int>dp(50005,0);
-        for(int i=0;i<n;i++){
-            int a = paint[i][0];
-            int l = paint[i][1]-paint[i][0];
-            int c = 0;
-            for(int j=a;j<a+l;){
-                if(dp[j]==0){
-                    c++;
-                    dp[j] = paint[i][1]-j;
-                    j++;
-                }else{
-                    j+=dp[j];
-                }
-            }
-            ans[i] = c;
+        vector<int> line(50001), res(paint.size());
+    for (int i = 0; i < paint.size(); ++i) {
+        int start_i = paint[i][0], end_i = paint[i][1];
+        while (start_i < end_i) {
+            int jump = max(start_i + 1, line[start_i]);
+            res[i] += line[start_i] == 0;
+            line[start_i] = max(line[start_i], end_i); // compression
+            start_i = jump;
         }
-        return ans;
+    }
+    return res;
     }
 };
