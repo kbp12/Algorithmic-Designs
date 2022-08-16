@@ -11,7 +11,7 @@ public:
             for(int j=a;j<a+l;){
                 if(dp[j]==0){
                     c++;
-                    dp[j] = a+l-j;
+                    dp[j] = paint[i][1]-j;
                     j++;
                 }else{
                     j+=dp[j];
