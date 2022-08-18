@@ -2,7 +2,7 @@ class Solution {
 public:
     int minSetSize(vector<int>& arr) {
         int n = arr.size();
-        unordered_map<int,int>m;
+        map<int,int>m;
         for(auto a:arr){
             m[a]++;
         }
