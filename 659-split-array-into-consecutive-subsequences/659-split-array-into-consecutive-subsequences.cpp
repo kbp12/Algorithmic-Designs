@@ -1,22 +1,25 @@
 class Solution {
 public:
     bool isPossible(vector<int>& nums) {
-        int n = nums.size();
-        map<int,priority_queue<int,vector<int>,greater<int>>>mpp;
-        for(int i=0;i<n;i++){
-            if(mpp.find(nums[i]-1)!=mpp.end()){
-                int a = mpp[nums[i]-1].top();
-                mpp[nums[i]-1].pop();
-                if(mpp[nums[i]-1].size()==0){
-                    mpp.erase(nums[i]-1);
-                }
-                mpp[nums[i]].push(a+1);
-            }else{
-                mpp[nums[i]].push(1);
-            }
+        map<int,int>endingAt, to_be_placed;
+        for(auto num:nums){
+            to_be_placed[num]++;
         }
-        for(auto it:mpp){
-            if(it.second.size() and it.second.top()<3) return false;
+        for(auto num:nums){
+            if(to_be_placed[num]==0){
+                continue;
+            }
+            if(endingAt[num-1]>0){
+                endingAt[num-1]--;
+                endingAt[num]++;
+            }else if(to_be_placed[num+1]>0 and to_be_placed[num+2]>0){
+                to_be_placed[num+1]--;
+                to_be_placed[num+2]--;
+                endingAt[num+2]++;
+            }else{
+                return false;
+            }
+            to_be_placed[num]--;
         }
         return true;
     }
