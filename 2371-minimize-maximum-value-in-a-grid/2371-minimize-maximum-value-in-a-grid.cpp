@@ -9,13 +9,12 @@ public:
                 v.push_back({grid[i][j], i, j});
         sort(begin(v), end(v));
 
-        vector<int> rows(m), cols(n);
-        vector<vector<int>> rv(m, vector<int>(n));
+        vector<int> rows(m,0), cols(n,0);
         for (auto &[vv, i, j] : v)
         {
-            rv[i][j] = max(rows[i], cols[j]) + 1;
-            rows[i] = cols[j] = rv[i][j]; 
+            grid[i][j] = max(rows[i], cols[j]) + 1;
+            rows[i] = cols[j] = grid[i][j]; 
         }
-        return rv; 
+        return grid; 
     }
 };
