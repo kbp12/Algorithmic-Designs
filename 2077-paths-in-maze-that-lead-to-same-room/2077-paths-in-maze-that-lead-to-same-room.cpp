@@ -1,14 +1,25 @@
 class Solution {
 public:
     int numberOfPaths(int n, vector<vector<int>>& corridors) {
-        bool am[1001][1001] = {};
-    for (auto &c : corridors)
-        am[min(c[0], c[1])][max(c[0], c[1])] = true;
-    int res = 0;
-    for (int i = 1; i < n; ++i)
-        for (int j = i + 1; j < n; ++j)
-            for (int k = j + 1; am[i][j] && k <= n; ++k)
-                res += am[j][k] && am[i][k];
-    return res;
+        bool dp[n+1][n+1];
+        for(int i=0;i<=n;i++){
+            for(int j=0;j<=n;j++){
+                dp[i][j] = false;
+            }
+        }
+        for(auto c:corridors){
+            dp[c[0]][c[1]] = 1;     dp[c[1]][c[0]] = 1;
+        }
+        int ans = 0;
+        for(int i=1;i<=n;i++){
+            for(int j=i+1;j<=n;j++){
+                if(dp[i][j]){
+                    for(int k=j+1;k<=n;k++){
+                        if(dp[j][k] and dp[k][i]) ans++;
+                    }
+                }
+            }
+        }
+        return ans;
     }
 };
