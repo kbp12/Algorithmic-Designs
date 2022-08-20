@@ -10,7 +10,7 @@ public:
                 pq.push(stations[i][1]);
             }else{
                 if(pos>=target) break;
-                if(pq.empty()) break;
+                if(pq.empty()) return -1;
                 pos+=pq.top(); pq.pop();
                 ans++;
                 i--;
