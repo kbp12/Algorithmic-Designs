@@ -1,7 +1,7 @@
 # Write your MySQL query statement below
 with tab as(
     select c.customer_id,c.salesperson_id, sum(d.price) as summ
-    from Customer c join Sales d
+    from Customer c left join Sales d
     on c.customer_id = d.customer_id
     group by c.salesperson_id
 )
