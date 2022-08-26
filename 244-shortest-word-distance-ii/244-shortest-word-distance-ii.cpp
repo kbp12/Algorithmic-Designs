@@ -1,6 +1,6 @@
 class WordDistance {
 public:
-    map<string,vector<int>>mpp;
+    unordered_map<string,vector<int>>mpp;
     WordDistance(vector<string>& wordsDict) {
         int i = 0;
         for(auto word:wordsDict){
