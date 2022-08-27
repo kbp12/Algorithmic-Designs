@@ -1,24 +1,24 @@
 class Solution {
 public:
+    int dp[70][70][70] = {};
     int cherryPickup(vector<vector<int>>& grid) {
-        int row = grid.size();
-        int col = grid[0].size();
-        int *curr = new int [(col + 2) * (col + 2)]();
-        int *prev = new int [(col + 2) * (col + 2)]();
-        vector<pair<int,int>> step = {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 0}, {0, 1}, {1, -1}, {1, 0}, {1, 1}};
-        
-        for(int r = row - 1; r >= 0; r--) {
-            for(int robo1 = 1; robo1 <= r + 1 && robo1 <= col; robo1++) {
-                for(int robo2 = col; robo2 > 0 && robo2 >= col - r; robo2--) {
-                    int cherries = robo1 != robo2 ? grid[r][robo1 - 1] + grid[r][robo2 - 1] : grid[r][robo1 - 1];
-                    int maxCherries = 0;
-                    for(const auto& [x, y]: step) 
-                        maxCherries = max(maxCherries, *(prev + (robo1 + x) * (col + 2) + robo2 + y));
-                    *(curr + robo1 * (col + 2) + robo2) = cherries + maxCherries;
+        memset(dp, -1, sizeof(dp));
+        int m = grid.size(), n = grid[0].size();
+        return dfs(grid, m, n, 0, 0, n - 1);
+    }
+    int dfs(vector<vector<int>>& grid, int m, int n, int r, int c1, int c2) {
+        if (r == m) return 0; // Reach to bottom row
+        if (dp[r][c1][c2] != -1) return dp[r][c1][c2];
+        int ans = 0;
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                int nc1 = c1 + i, nc2 = c2 + j;
+                if (nc1 >= 0 && nc1 < n && nc2 >= 0 && nc2 < n) {
+                    ans = max(ans, dfs(grid, m, n, r + 1, nc1, nc2));
                 }
             }
-            swap(curr, prev);
         }
-        return *(prev + 1 * (col + 2) + col);
+        int cherries = c1 == c2 ? grid[r][c1] : grid[r][c1] + grid[r][c2];
+        return dp[r][c1][c2] = ans + cherries;
     }
 };
