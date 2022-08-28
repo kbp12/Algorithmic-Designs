@@ -4,7 +4,7 @@ public:
         int n = nums.size();
         vector<long long>dp(n,LONG_MAX);
         dp[0] = 0;
-        deque<long long>one, two;
+        vector<long long>one, two;
         for(int i=0;i<n;i++){
             while(one.size() and nums[i]>=nums[one.back()]){
                 dp[i] = min(dp[i],dp[one.back()]+costs[i]);
