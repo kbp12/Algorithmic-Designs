@@ -1,35 +1,36 @@
 class NumArray {
 public:
-    vector<int>tree;
+    vector<int>nums;
+    vector<int>sums;
     int n;
-    int constructST(vector<int>& nums, int l, int r, int idx){
+    int buildst(int l, int r, int i){
+        if(l>r) return 0;
         if(l==r){
-            tree[idx] = nums[l];
-            return tree[idx];
+            sums[i] = nums[l];
+            return sums[i];
         }
-        int m = (l+r)/2;
-        tree[idx] = constructST(nums,l,m,2*idx+1)+
-            constructST(nums,m+1,r,2*idx+2);
-        return tree[idx];
+        int m = l+(r-l)/2;
+        sums[i] = buildst(l,m,2*i+1) + buildst(m+1,r,2*i+2);
+        return sums[i];
     }
     
-    NumArray(vector<int>& nums) {
-        n = nums.size();
-        tree.resize(4*n);
-        constructST(nums,0,n-1,0);
-        return;
+    NumArray(vector<int>& nums2) {
+        n = nums2.size();
+        nums = nums2;
+        sums.resize(4*n);
+        buildst(0,n-1,0);
     }
-    int getSum(int l, int r, int left, int right, int idx){
-        if(l>right || r<left){
-            return 0;
-        }
-        if(l<=left && r>=right) return tree[idx];
-        int m = (left+right)/2;
-        return getSum(l,r,left,m,2*idx+1)+getSum(l,r,m+1,right,2*idx+2);
+    
+    int sumst(int i, int j, int l, int r, int idx){
+        if(j<l or i>r) return 0;
+        if(i<=l and j>=r) return sums[idx];
+        int m = l+(r-l)/2;
+        return sumst(i,j,l,m,2*idx+1)+sumst(i,j,m+1,r,2*idx+2);
+        
     }
     
     int sumRange(int left, int right) {
-        return getSum(left,right,0,n-1,0);
+        return sumst(left,right,0,n-1,0);
     }
 };
 
