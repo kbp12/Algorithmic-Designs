@@ -1,26 +1,26 @@
 class NumArray {
 public:
     vector<int>nums;
-    int n;
     vector<int>sums;
-    
-    int builtst(int start, int end, int i){
-        if(start==end){
-            sums[i] = nums[start];
+    int n;
+    int buildst(int l, int r, int i){
+        if(l>r) return 0;
+        if(l==r){
+            sums[i] = nums[l];
             return sums[i];
         }
-        int mid = start+(end-start)/2;
-        sums[i] = builtst(start,mid,2*i+1)+builtst(mid+1,end,2*i+2);
+        int m = l+(r-l)/2;
+        sums[i] = buildst(l,m,2*i+1) + buildst(m+1,r,2*i+2);
         return sums[i];
     }
     
-    void updatest(int start, int end, int diff, int i, int idx){
-        if(idx<start || idx>end) return;
+    void updatest(int l, int r, int diff, int i, int idx){
+        if(idx<l || idx>r) return;
         sums[i]+=diff;
-        if(start==end) return;
-        int mid = start+(end-start)/2;
-        updatest(start,mid,diff,2*i+1,idx);
-        updatest(mid+1,end,diff,2*i+2,idx);
+        if(l==r) return;
+        int m = l+(r-l)/2;
+        updatest(l,m,diff,2*i+1,idx);
+        updatest(m+1,r,diff,2*i+2,idx);
         return;
     }
     
@@ -35,7 +35,7 @@ public:
         n = nums2.size();
         nums = nums2;
         sums.resize(4*n);
-        builtst(0,n-1,0);
+        buildst(0,n-1,0);
     }
     
     void update(int index, int val){
