@@ -4,17 +4,16 @@
 class Solution {
 public:
     int findCelebrity(int n) {
-        for(int i=0;i<n;i++){
-            bool cele = true;
-            for(int j=0;j<n;j++){
-                if(i==j) continue;
-                if(!knows(j,i) or knows(i,j)){
-                    cele = false;
-                    break;
-                }
+        int cand = 0;
+        for(int i=1;i<n;i++){
+            if(knows(cand,i)){
+                cand = i;
             }
-            if(cele) return i;
         }
-        return -1;
+        for(int i=0;i<n;i++){
+            if(i==cand) continue;
+            if(knows(cand,i) or !knows(i,cand)) return -1;
+        }
+        return cand;
     }
 };
