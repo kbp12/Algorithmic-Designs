@@ -11,7 +11,7 @@
 class Solution {
 public:
     ListNode* deleteDuplicatesUnsorted(ListNode* head) {
-        map<int,int>cnt;
+        unordered_map<int,int>cnt;
         ListNode* temp = head;
         while(temp){
             cnt[temp->val]++;
