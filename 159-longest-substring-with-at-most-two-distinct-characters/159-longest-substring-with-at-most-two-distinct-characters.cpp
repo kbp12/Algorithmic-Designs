@@ -2,7 +2,7 @@ class Solution {
 public:
     int lengthOfLongestSubstringTwoDistinct(string s) {
         char a = '1', b = '2';
-        int c = 0, d = 0;
+        int c = 0;
         int ans = 0;
         int l = 0;
         int n = s.size();
@@ -12,14 +12,14 @@ public:
                 l++;
             }else if(s[i]==b or b=='2'){
                 b = a;
-                d = c;
+                //d = c;
                 c = i;
                 a = s[i];
                 l++;
             }else{
                 l = i-c+1;
                 b = a;
-                d = c;
+                //d = c;
                 c = i;
                 a = s[i];
             }
