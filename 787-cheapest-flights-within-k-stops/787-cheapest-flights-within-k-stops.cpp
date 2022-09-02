@@ -4,8 +4,7 @@ public:
         vector<int> dist(n, INT_MAX);
         dist[src]=0;
         for(int i=0; i<=k; i++) {
-            vector<int> temp(n);
-            copy(dist.begin(), dist.end(), temp.begin());
+            vector<int> temp = dist;
             for(auto e : edges) {
                 if(dist[e[0]]==INT_MAX)
                     continue;
