@@ -21,7 +21,8 @@ public:
     int longestLine(vector<vector<int>>& mat) {
         int ans = 0;
         for(int k=0;k<4;k++){
-            ans = max(ans,search(mat,k));
+            int res = search(mat,k);
+            ans = max(ans,res);
         }
         return ans;
     }
