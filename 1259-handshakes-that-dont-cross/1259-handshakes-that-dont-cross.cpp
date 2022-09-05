@@ -11,18 +11,13 @@ public:
         if(dp[j-i+1]!=-1) return dp[j-i+1];
         int ans = 0;
         for(int k=i+1;k<=j;k+=2){
-            long long a = ways(i+1,k-1);
-            long long b = ways(k+1,j);
-            long long c = a*b;
-            c = c%mod;
-            if(a==0){
-                ans = (ans+b)%mod;
-            }else if(b==0){
-                ans = (ans+a)%mod;
-            }else
-                ans = (ans+c)%mod;
+            int a = ways(i+1,k-1);
+            a = max(a,1);
+            int b = ways(k+1,j);
+            b = max(b,1);
+            int c = ((long long)a*b)%mod;
+            ans = (ans+c)%mod;
         }
-        //cout<<i<<" "<<j<<" "<<ans<<endl;
         return dp[j-i+1] = ans;
     }
     int numberOfWays(int n) {
