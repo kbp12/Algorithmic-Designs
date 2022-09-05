@@ -4,11 +4,10 @@ public:
     int mod = 1e9+7;
     int ways(int i, int j){
         if(i>=j) return 0;
-        if(j==i+1){
-            dp[j-i+1] = 1;
-            return 1;
-        }
         if(dp[j-i+1]!=-1) return dp[j-i+1];
+        if(j==i+1){
+            return dp[j-i+1] = 1;
+        }
         int ans = 0;
         for(int k=i+1;k<=j;k+=2){
             int a = ways(i+1,k-1);
