@@ -15,7 +15,6 @@ public:
             }
         }
         int l = dp[n][n];
-        cout<<dp[n][n];
         return l+k>=n;
     }
 };
