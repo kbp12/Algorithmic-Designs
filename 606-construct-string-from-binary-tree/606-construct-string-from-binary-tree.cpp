@@ -12,23 +12,28 @@
 class Solution {
 public:
     string ans = "";
-    string tree2str(TreeNode* root) {
+    void dfs(TreeNode* root){
         ans+=to_string(root->val);
         if(root->left and root->right){
             ans+="(";
-            tree2str(root->left);
+            dfs(root->left);
             ans+=")(";
-            tree2str(root->right);
+            dfs(root->right);
             ans+=")";
         }else if(root->left){
             ans+="(";
-            tree2str(root->left);
+            dfs(root->left);
             ans+=")";
         }else if(root->right){
             ans+="()(";
-            tree2str(root->right);
+            dfs(root->right);
             ans+=")";
         }
+        return;
+    }
+    string tree2str(TreeNode* root) {
+        ans = "";
+        dfs(root);
         return ans;
     }
 };
