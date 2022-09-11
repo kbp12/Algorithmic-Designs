@@ -6,16 +6,16 @@ public:
             player[i] = {efficiency[i],speed[i]};
         }
         sort(player.begin(),player.end(), greater<pair<int,int>>());
-        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>>pq;
+        priority_queue<int,vector<int>, greater<int>>pq;
         long long sum = 0;
         long long ans = 0;
         long long mini = INT_MAX;
         for(int i=0;i<n;i++){
             if(pq.size()>=k){
-                int val = pq.top().first; pq.pop();
+                int val = pq.top(); pq.pop();
                 sum-=val;
             }
-            pq.push({player[i].second,player[i].first});
+            pq.push(player[i].second);
             sum+= player[i].second;
             mini = player[i].first;
             ans = max(ans,sum*mini);
