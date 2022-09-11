@@ -6,11 +6,13 @@ public:
             ans = min(ans,sum);
             return;
         }
+        if(sum>=ans) return;
         for(int i=0;i<m;i++){
             if(assigned[i]==false){
-                assigned[i] = true;
                 int temp = abs(bikes[i][0]-workers[idx][0])+abs(bikes[i][1]-workers[idx][1]);
                 sum+=temp;
+                
+                assigned[i] = true;
                 dfs(workers,bikes,assigned,idx+1,sum,n,m);
                 assigned[i] = false;
                 sum-=temp;
