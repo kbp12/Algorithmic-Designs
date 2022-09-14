@@ -2,7 +2,6 @@ class Solution {
 public:
     vector<int>seg;
     vector<int>arr;
-    int n;
     int maxseg(int l,int r, int wl, int wr, int idx){
         if(wr<l or wl>r) return 0;
         if(wl<=l and r<=wr) return seg[idx];
@@ -21,7 +20,7 @@ public:
     }
     
     int lengthOfLIS(vector<int>& nums, int k) {
-        n = 100001;
+        int n = 100001;
         arr.resize(n,0);
         seg.resize(4*n,0);
         int ans = 0;
