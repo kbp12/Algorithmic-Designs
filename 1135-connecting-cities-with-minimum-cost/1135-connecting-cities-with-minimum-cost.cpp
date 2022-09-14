@@ -1,33 +1,31 @@
 class Solution {
 public:
-    int minimumCost(int n, vector<vector<int>>& connections) {
-        vector<pair<int,int>>g[n+1];
-        for(auto c:connections){
-            g[c[0]].push_back({c[1],c[2]});
-            g[c[1]].push_back({c[0],c[2]});
+    vector<int> parent;
+    static bool comp(const vector<int>& a, const vector<int>& b) {
+        return (a[2] < b[2]);
+    }
+    
+    int find(int i) {
+        if (parent[i] != i) parent[i] = find(parent[i]);
+        return parent[i];
+    }
+    
+    int minimumCost(int N, vector<vector<int>>& connections) {
+        sort(connections.begin(), connections.end(), comp);
+        parent.resize(N+1, 0);
+        for (int i = 1; i <= N; i++) {
+            parent[i] = i;
         }
-        vector<int>visited(n+1,false);
-        vector<int>dist(n+1,INT_MAX);
-        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>pq;
-        pq.push({0,1});
-        int cities = 0, ans =0;
-        dist[1] = 0;
-        while(cities<n and pq.size()){
-            auto [f,s] = pq.top(); pq.pop();
-            if(visited[s]) continue;
-            visited[s] = true;
-            ans+=f;
-            for(auto next:g[s]){
-                int city = next.first;
-                int cost = next.second;
-                if(visited[city]==false and dist[city]>cost){
-                    dist[city] = cost;
-                    pq.push({cost,city});
-                }
+        int res = 0, count = 1;
+        for (auto& c : connections) {
+            int rx = find(c[0]), ry = find(c[1]);
+            if (rx != ry) {
+                res += c[2];
+                parent[ry] = rx;
+                count++;
             }
-            cities++;
+            if (count == N) return res;
         }
-        if(cities<n) return -1;
-        return ans;
+        return -1;
     }
 };
