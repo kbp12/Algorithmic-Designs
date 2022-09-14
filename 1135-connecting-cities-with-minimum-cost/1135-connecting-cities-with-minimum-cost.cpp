@@ -20,11 +20,11 @@ public:
             numVisited++;
             res += cost;
             for (auto& n : mp[city]) {
-                cost = n.first;
-                city = n.second;
-                if (!visited[city] && cost < minCost[city]) {
-                    minCost[city] = cost;
-                    pq.push({cost, city});
+                int c = n.first;
+                int s = n.second;
+                if (!visited[s] && c < minCost[s]) {
+                    minCost[s] = c;
+                    pq.push({c, s});
                 }
             }
         }
