@@ -1,33 +1,33 @@
-typedef pair<int,int> pii;
 class Solution {
 public:
-    int minimumCost(int N, vector<vector<int>>& connections) {
-        vector<vector<pii>> mp(N+1);
-        vector<bool> visited(N+1, false);
-        vector<int> minCost(N+1, INT_MAX);
-        for (auto& edge : connections) {
-            mp[edge[0]].push_back({edge[2], edge[1]});
-            mp[edge[1]].push_back({edge[2], edge[0]});
+    int minimumCost(int n, vector<vector<int>>& connections) {
+        vector<pair<int,int>>g[n+1];
+        for(auto c:connections){
+            g[c[0]].push_back({c[1],c[2]});
+            g[c[1]].push_back({c[0],c[2]});
         }
-        priority_queue<pii, vector<pii>, greater<pii>> pq;
+        vector<int>visited(n+1,false);
+        vector<int>dist(n+1,INT_MAX);
+        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>pq;
         pq.push({0,1});
-        int numVisited = 0, res = 0;
-        while (numVisited < N && !pq.empty()) {
-            int cost = pq.top().first, city = pq.top().second;
-            pq.pop();
-            if (visited[city]) continue;
-            visited[city] = true;
-            numVisited++;
-            res += cost;
-            for (auto& n : mp[city]) {
-                int c = n.first;
-                int s = n.second;
-                if (!visited[s] && c < minCost[s]) {
-                    minCost[s] = c;
-                    pq.push({c, s});
+        int cities = 0, ans =0;
+        dist[1] = 0;
+        while(cities<n and pq.size()){
+            auto [f,s] = pq.top(); pq.pop();
+            if(visited[s]) continue;
+            visited[s] = true;
+            ans+=f;
+            for(auto next:g[s]){
+                int city = next.first;
+                int cost = next.second;
+                if(visited[city]==false and dist[city]>cost){
+                    dist[city] = cost;
+                    pq.push({cost,city});
                 }
             }
+            cities++;
         }
-        return numVisited == N ? res : -1;
+        if(cities<n) return -1;
+        return ans;
     }
 };
