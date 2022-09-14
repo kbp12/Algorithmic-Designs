@@ -23,7 +23,7 @@ public:
     int lengthOfLIS(vector<int>& nums, int k) {
         n = 100001;
         arr.resize(n,0);
-        seg.resize(4*n,0);
+        seg.resize(3*n,0);
         int ans = 0;
         for(auto num:nums){
             int res = maxseg(1,100000,max(1,num-k),num-1,0)+1;
