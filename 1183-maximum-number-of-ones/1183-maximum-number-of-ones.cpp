@@ -3,8 +3,7 @@ public:
     int maximumNumberOfOnes(int width, int height, int sideLength, int maxOnes) {
         vector<int> seq;
         for(int i = 0; i < sideLength; i++){
-            for(int j = 0; j < sideLength; j++){
-				//RoundUp((width - i)/sideLength)) * RoundUp((height - j)/sideLength)) 
+            for(int j = 0; j < sideLength; j++){ 
                 int toInsert = ((width - i + sideLength - 1)/sideLength) * ((height - j + sideLength - 1)/sideLength);
                 seq.push_back(toInsert);
             }
