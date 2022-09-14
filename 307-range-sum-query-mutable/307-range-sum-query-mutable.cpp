@@ -17,7 +17,7 @@ public:
     NumArray(vector<int>& nums) {
         arr = nums;
         n = arr.size();
-        seg.resize(4*n);
+        seg = vector<int>(4*n,0);
         buildseg(0,n-1,0);
         return;
     }
