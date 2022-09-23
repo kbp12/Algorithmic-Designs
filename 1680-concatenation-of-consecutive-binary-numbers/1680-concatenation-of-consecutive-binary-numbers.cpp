@@ -14,7 +14,7 @@ public:
                 a/=2;
             }
         }
-        long long val = 0,mul = 1;
+        int val = 0,mul = 1;
         for(int j=0;j<s.size();j++){
             val = (val+(s[j]-'0')*mul)%mod;
             mul*=2;
