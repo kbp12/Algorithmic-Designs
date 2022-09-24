@@ -2,7 +2,7 @@ class Solution {
 public:
     int minimizedMaximum(int n, vector<int>& quantities) {
         int m = quantities.size();
-        int l=1,r = *max_element(quantities.begin(),quantities.end()),ans = INT_MAX;
+        int l=1,r = *max_element(quantities.begin(),quantities.end());
         while(l<r){
             int mid = l+(r-l)/2;
             int c = 0;
