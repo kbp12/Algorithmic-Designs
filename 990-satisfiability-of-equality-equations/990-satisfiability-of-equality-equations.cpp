@@ -42,9 +42,7 @@ public:
             }
         }
         for(auto eq:equations){
-            if(eq[1]=='!'){
-                if(dsu.find(eq[0]-'a') == dsu.find(eq[3]-'a')) return false;
-            }
+            if(eq[1]=='!' and dsu.find(eq[0]-'a') == dsu.find(eq[3]-'a')) return false;
         }
         return true;
     }
