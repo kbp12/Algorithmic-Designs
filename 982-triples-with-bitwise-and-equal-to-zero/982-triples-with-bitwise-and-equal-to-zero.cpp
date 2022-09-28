@@ -9,7 +9,7 @@ public:
             }
         }
         int ans = 0;
-        for(auto &it:umap){
+        for(auto it:umap){
             for(int k=0;k<n;k++){
                 if((nums[k] & it.first)==0) ans+=it.second;
             }
