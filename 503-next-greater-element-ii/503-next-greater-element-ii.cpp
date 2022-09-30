@@ -1,31 +1,28 @@
 class Solution {
 public:
     vector<int> nextGreaterElements(vector<int>& nums) {
-        int idx = 0, m = nums[0], n = nums.size();
+        int n = nums.size();
+        int maxi = nums[0], idx = 0;
         for(int i=1;i<n;i++){
-            if(nums[i]>m){
-                idx = i; m = nums[i];
+            if(nums[i]>maxi){
+                maxi = nums[i];
+                idx = i;
             }
         }
         vector<int>ans(n);
-        ans[idx] = -1;
-        int i = 1;
-        stack<int>st;
-        st.push(idx);
+        ans[idx] = -1; 
+        stack<int>mono;
+        mono.push(nums[idx]);
+        int c = 1;
         idx--;
-        while(i<n){
+        while(c<n){
             if(idx<0) idx = n-1;
-            while(st.size() && nums[st.top()]<=nums[idx]){
-                st.pop();
-            }
-            if(st.size()){
-                ans[idx] = nums[st.top()];
-            }else{
-                ans[idx] = -1;
-            }
-            st.push(idx);
-            i++;
+            while(mono.size() and mono.top()<=nums[idx]) mono.pop();
+            if(mono.size()) ans[idx] = mono.top();
+            else ans[idx] = -1;
+            mono.push(nums[idx]);
             idx--;
+            c++;
         }
         return ans;
     }
