@@ -1,34 +1,36 @@
 class Solution {
 public:
-    int numDecodings(string s) {
-        int n = s.size(), mod = 1e9+7;
-        vector<int>dp(n+1,0);
-        dp[0] = 1;
-        if(s[0]=='0') dp[1] = 0;
-        else if(s[0]=='*') dp[1] = 9;
-        else dp[1] = 1;
+    int numDecodings(string str) {
+        int n = str.size(), mod = 1e9+7;
+        int f,s;
+        f=1;
+        if(str[0]=='0') s = 0;
+        else if(str[0]=='*') s = 9;
+        else s = 1;
         for(int i=2;i<=n;i++){
-            int ways1 = 0, ways2 = 0,ways3 = 0;
-            if(s[i-1]=='*' and s[i-2]=='*'){
-                dp[i] = (((long long)dp[i-1]*9)%mod + ((long long)dp[i-2]*15)%mod)%mod;
-            }else if(s[i-1]=='*'){
-                if(s[i-2]=='1') dp[i] = ((long long)dp[i-2]*9)%mod;
-                if(s[i-2]=='2') dp[i] = ((long long)dp[i-2]*6)%mod;
-                dp[i] = (dp[i] + ((long long)dp[i-1]*9)%mod)%mod;
-            }else if(s[i-2]=='*'){
+            int c = 0;
+            if(str[i-1]=='*' and str[i-2]=='*'){
+                c = (((long long)s*9)%mod + ((long long)f*15)%mod)%mod;
+            }else if(str[i-1]=='*'){
+                if(str[i-2]=='1') c = ((long long)f*9)%mod;
+                if(str[i-2]=='2') c = ((long long)f*6)%mod;
+                c = (c + ((long long)s*9)%mod)%mod;
+            }else if(str[i-2]=='*'){
                 int a = 1;
-                if(s[i-1]>='0' and s[i-1]<'7'){
+                if(str[i-1]>='0' and str[i-1]<'7'){
                     a++;
                 }
-                dp[i] = ((long long)dp[i-2]*a)%mod;
-                if(s[i-1]!='0')
-                    dp[i] = (dp[i-1]+dp[i])%mod;
+                c = ((long long)f*a)%mod;
+                if(str[i-1]!='0')
+                    c = (s+c)%mod;
             }else{
-                if(s[i-1]!='0') dp[i] = dp[i-1];
-                int a = stoi(s.substr(i-2,2));
-                if(a<27 and s[i-2]!='0') dp[i] = (dp[i]+dp[i-2])%mod;
+                if(str[i-1]!='0') c = s;
+                int a = stoi(str.substr(i-2,2));
+                if(a<27 and str[i-2]!='0') c = (c+f)%mod;
             }
+            f = s; 
+            s = c;
         }
-        return dp[n];
+        return s;
     }
 };
