@@ -5,23 +5,22 @@ public:
         int siz = s.size();
         if(siz==0) return 0;
         if(dp[siz]) return dp[siz];
-        vector<int> prefix = z(s);
-        bool check = false;
+        vector<int> z_arr = z_f(s);
         int ans = 0;
-        for(int j = 1 ; j < siz ; j++){
-            int val = (j+1)/2;
-            if(j%2==1 and prefix[j] == val){
-                check = true;
-                ans = max(ans,1+helper(s.substr(prefix[j])));
+        bool found = true;
+        for(int i=1;i<siz;i++){
+            if(i%2==1 and z_arr[i] == (i+1)/2){
+                found = false;
+                ans = max(ans,1+helper(s.substr(z_arr[i])));
             }
         }
-        if(check==false){
+        if(found){
             return 1;
         }
         return dp[siz] = ans;
     }
     
-    vector<int> z(string s){
+    vector<int> z_f(string s){
         int n = (int)s.length();
         vector<int> pi(n);
         for (int i = 1; i < n; i++) {
