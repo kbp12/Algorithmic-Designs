@@ -2,14 +2,11 @@ class Solution {
 public:
     int minimizeXor(int num1, int num2) {
         int c = 0;
-        vector<int>v(32,0);
         int j = 0;
         while(num2){
             if(num2 & 1) {
-                v[j] = 1;
                 c++;
             }
-            j++;
             num2 = num2/2;
         }
         j = 0;
