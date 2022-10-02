@@ -5,7 +5,7 @@ public:
         int siz = s.size();
         if(siz==0) return 0;
         if(dp[siz]) return dp[siz];
-        vector<int> z_arr = z_f(s);
+        auto z_arr = z_f(s);
         int ans = 0;
         bool found = true;
         for(int i=1;i<siz;i++){
