@@ -1,31 +1,22 @@
 class Solution {
 public:
-    int dp[4005];
-    
-    
+    int dp[4005] = {};
     int helper(string s){
         int m = s.size();
-        
-        
         // dp memo
-        if(dp[m]!=-1){
+        if(dp[m]){
             return dp[m];
         }
         vector<int> prefix = z(s);
         bool check = false;
         int ans = 0;
         for(int j = 1 ; j < m ; j++){
-            
-            // checking if prefix[i] == half of length of string s at that particular time
             int val = (j+1)/2;
             if(j%2==1 and prefix[j] == val){
                 check = true;
                 ans = max(ans,1+helper(s.substr(prefix[j])));
             }
         }
-            
-        
-        // if no prefix found in string s
         if(check==false){
             return 1;
         }
@@ -45,8 +36,8 @@ public:
         }
         return pi;
     }
+    
     int deleteString(string s) {
-        memset(dp,-1,sizeof(dp));
         return helper(s);
     }
 };
