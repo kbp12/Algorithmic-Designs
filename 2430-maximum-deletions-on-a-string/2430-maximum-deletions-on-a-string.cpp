@@ -2,15 +2,13 @@ class Solution {
 public:
     int dp[4005] = {};
     int helper(string s){
-        int m = s.size();
-        // dp memo
-        if(dp[m]){
-            return dp[m];
-        }
+        int siz = s.size();
+        if(siz==0) return 0;
+        if(dp[siz]) return dp[siz];
         vector<int> prefix = z(s);
         bool check = false;
         int ans = 0;
-        for(int j = 1 ; j < m ; j++){
+        for(int j = 1 ; j < siz ; j++){
             int val = (j+1)/2;
             if(j%2==1 and prefix[j] == val){
                 check = true;
@@ -20,7 +18,7 @@ public:
         if(check==false){
             return 1;
         }
-        return dp[m] = ans;
+        return dp[siz] = ans;
     }
     
     vector<int> z(string s){
