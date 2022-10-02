@@ -1,9 +1,8 @@
 class Solution {
 public:
     int n;
-    int dp[4002];
+    int dp[4005];
     int f(string_view s, int l){
-        
         if (l== n-1){
             return 1;
         }
@@ -24,7 +23,7 @@ public:
     int deleteString(string s) {
         n = s.size();
         memset(dp,-1,sizeof dp);
-        vector<vector<int>> ref(n,vector<int>(n,0));
+        //vector<vector<int>> ref(n,vector<int>(n,0));
         
         string_view s1{s};
         return f(s1,0);
