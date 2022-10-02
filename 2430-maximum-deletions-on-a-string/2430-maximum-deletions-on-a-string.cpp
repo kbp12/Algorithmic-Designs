@@ -15,10 +15,7 @@ public:
         }
         return pi;
     }
-    
-    
-    // dp
-    int dp[4100];
+    int dp[4005];
     
     
     int helper(string s){
