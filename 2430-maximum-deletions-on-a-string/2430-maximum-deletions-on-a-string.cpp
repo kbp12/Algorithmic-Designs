@@ -6,16 +6,12 @@ public:
         if(siz==0) return 0;
         if(dp[siz]) return dp[siz];
         auto z_arr = z_f(s);
-        int ans = 0;
+        int ans = 1;
         bool found = true;
         for(int i=1;i<siz;i++){
             if(i%2==1 and z_arr[i] == (i+1)/2){
-                found = false;
                 ans = max(ans,1+helper(s.substr(z_arr[i])));
             }
-        }
-        if(found){
-            return 1;
         }
         return dp[siz] = ans;
     }
