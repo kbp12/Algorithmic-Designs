@@ -21,17 +21,17 @@ public:
     }
     
     vector<int> z_f(string s){
-        int n = (int)s.length();
-        vector<int> pi(n);
-        for (int i = 1; i < n; i++) {
-            int j = pi[i-1];
-            while (j > 0 && s[i] != s[j])
-                j = pi[j-1];
-            if (s[i] == s[j])
+        int n = s.size();
+        vector<int> dp(n,0);
+        for (int i=1;i<n;i++) {
+            int j = dp[i-1];
+            while(j>0 and s[i]!=s[j])
+                j = dp[j-1];
+            if (s[i]==s[j])
                 j++;
-            pi[i] = j;
+            dp[i] = j;
         }
-        return pi;
+        return dp;
     }
     
     int deleteString(string s) {
