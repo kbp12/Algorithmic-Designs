@@ -7,8 +7,8 @@ public:
         if(dp[siz]) return dp[siz];
         auto z_arr = z_f(s);
         int ans = 1;
-        for(int i=1;i<siz;i++){
-            if(i%2==1 and z_arr[i] == (i+1)/2){
+        for(int i=1;i<siz;i+=2){
+            if(z_arr[i] == (i+1)/2){
                 ans = max(ans,1+find(s.substr(z_arr[i])));
             }
         }
