@@ -1,24 +1,16 @@
 class MyCalendarThree {
 public:
-    vector<int>st;
-    vector<int>en;
+    map<int,int>mpp;
     MyCalendarThree() {
         return;
     }
     
-    int book(int s, int e) {
-        st.push_back(s);
-        en.push_back(e);
-        sort(st.begin(),st.end());
-        sort(en.begin(),en.end());
-        int c = 0, i = 0, j = 0, ans = 0;
-        while(i<st.size()){
-            if(st[i]<en[j]){
-                c++; i++;
-            }
-            else{
-                c--; j++;
-            }
+    int book(int start, int end) {
+        mpp[start]++;
+        mpp[end]--;
+        int ans = 0, c = 0;
+        for(auto it:mpp){
+            c+=it.second;
             ans = max(ans,c);
         }
         return ans;
