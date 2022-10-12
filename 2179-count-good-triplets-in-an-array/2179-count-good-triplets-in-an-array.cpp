@@ -27,7 +27,7 @@ public:
             idx2[nums2[i]] = i;
         }
         long long ans = 0;
-        for(int i=0;i<n-1;i++){
+        for(int i=0;i<n;i++){
             int mid = idx2[nums1[i]];
             int smaller = sumbit(mid);
             int bigger = (n-1) - mid - (i-smaller);
