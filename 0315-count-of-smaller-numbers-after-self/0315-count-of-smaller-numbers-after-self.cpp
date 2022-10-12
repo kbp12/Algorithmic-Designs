@@ -16,6 +16,7 @@ public:
         }
         return;
     }
+    
     vector<int> countSmaller(vector<int>& nums) {
         int n = nums.size();
         vector<int>ans(n);
