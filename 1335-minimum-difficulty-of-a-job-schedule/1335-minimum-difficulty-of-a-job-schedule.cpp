@@ -8,7 +8,7 @@ public:
         if(idx==0 or cuts==0) return 300006;
         if(dp[idx][cuts]!=300006) return dp[idx][cuts];
         int maxi = arr[idx-1];
-        int ans = 300006;
+        int ans = INT_MAX;
         for(int dd = cuts;dd>0;dd--){
             for(int j=idx;j>=cuts;j--){
                 maxi = max(maxi , arr[j-1]);
