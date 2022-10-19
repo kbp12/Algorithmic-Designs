@@ -7,7 +7,7 @@ public:
             adj[rel[1]].push_back(rel[0]);
             ind[rel[0]]++;
         }
-        vector<int>finish(n+1,-1);
+        vector<int>finish(n+1,0);
         queue<int>q;
         for(int i=1;i<=n;i++){
             if(ind[i]==0){
@@ -19,8 +19,7 @@ public:
             int f = q.front(); q.pop();
             for(auto it:adj[f]){
                 ind[it]--;
-                if(finish[it]==-1) finish[it] = finish[f] + time[it-1];
-                else finish[it] = max(finish[it] , finish[f]+time[it-1]);
+                finish[it] = max(finish[it] , finish[f]+time[it-1]);
                 if(ind[it] == 0){
                     q.push(it);
                 }
