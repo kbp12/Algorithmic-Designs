@@ -25,11 +25,11 @@ public:
             string e = s2.substr(n-i-1);
             string f = s2.substr( 0 , n-i-1);
             if(check(a , c) and check(b , d) and solve(a , c) and solve( b ,d)){
-                //mpp[{s1,s2}] = true;
+                mpp[{s1,s2}] = true;
                 return true;
             }
             if(check(a , e) and check(b ,f) and solve(a,e) and solve(b , f)){
-               // mpp[{s1 ,s2}] = true;
+                mpp[{s1 ,s2}] = true;
                 return true;
             }
         }
