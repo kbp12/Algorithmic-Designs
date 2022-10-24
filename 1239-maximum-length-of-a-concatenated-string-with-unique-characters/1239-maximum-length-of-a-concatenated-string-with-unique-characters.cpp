@@ -1,35 +1,28 @@
 class Solution {
 public:
-    int ans;
-    void solve(vector<string>& arr, vector<bool>& taken , int i){
-        if(i == taken.size()){
-            bool ok = true;
-            int count = 0;
+    int maxLength(vector<string>& arr) {
+        int ans = 0, count, n = arr.size();
+        for(int mask = 1; mask<(1<<n);mask++){
             int c[26] = {0};
-            for(int j=0;j<arr.size();j++){
-                if(taken[j]){
+            count = 0;
+            bool ok = true;
+            for(int j=0;j<n;j++){
+                if((mask>>j) & 1){
                     for(auto ch:arr[j]){
-                        if(c[ch-'a']) return;
+                        if(c[ch-'a']){
+                            ok = false;
+                            break;
+                        }
                         c[ch-'a'] = 1;
                         count++;
                     }
                 }
+                if(!ok) break;
             }
-            ans = max(ans , count);
-            return;
+            if(ok){
+                ans = max(ans , count);
+            }
         }
-        solve(arr , taken , i+1);
-        taken[i] = true;
-        solve(arr , taken , i+1);
-        taken[i] = false;
-        return;
-    }
-    
-    int maxLength(vector<string>& arr) {
-        this->ans = 0;
-        int n = arr.size();
-        vector<bool>taken(n,false);
-        solve(arr , taken , 0);
         return ans;
     }
 };
