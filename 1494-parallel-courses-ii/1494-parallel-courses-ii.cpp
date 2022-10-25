@@ -1,68 +1,52 @@
 class Solution {
-    vector<vector<int> > adj;  
-    int n;
-    int k;
-    vector<int> dp;
-    int solve(int mask)
-    {
-        if(mask==((1<<n)-1))
-        {  
-            return 0;
+public:
+    int minNumberOfSemesters(int n, vector<vector<int>>& dependencies, int k) {
+        // All courses numbers are shifted down by 1
+        // Bit representation and bit manipulation is heavily used.
+        const int nStates = 1<<n; // All subsets of n courses, bit representation
+        vector<int> dp(nStates, INT_MAX); // dp[i]: least semesters to finish courses of bit pattern i
+        vector<int> pre(n); // [TRICK] pre[i]: prerequisites of i-th course, bit representation 
+        // Initialize pre array
+        for (auto& dep: dependencies) {
+            pre[dep[1]-1] = pre[dep[1]-1] | (1<<(dep[0]-1));
         }
-        if(dp[mask]!=-1) 
-            return dp[mask];
-        vector<int> indeg(n,0);
-        for(int i=0; i<n; i++)
-        {
-            if(mask&(1<<i))
+        // Dynamic Processing
+        dp[0] = 0;
+        vector<int> idx(n); // Candidates indexes
+        for (int i = 0; i < nStates; i++) { // Enumerate all subsets (courses already taken)
+            if (dp[i] == INT_MAX) 
                 continue;
-            for(auto it: adj[i])
-            {
-                indeg[it]++;
-            }
-        }
-        int temp=0;  
-        for(int i=0; i<n; i++)
-        {
-            if(indeg[i]==0&&!(mask&(1<<i)))
-            {
-                temp=temp|(1<<i);
-            }
-        }
-        int j=temp;
-        int cnt=__builtin_popcount(j);  
-
-        int ans=n+1; 
-        if(cnt>k)
-        {
-            for( ; j ; j=(j-1)&temp ) 
-            {
-                cnt=__builtin_popcount(j);  
-                if(cnt!=k)   
+            int candidates = 0; // Courses that are ready and not taken yet, bit representation
+            int nCandidates = 0; // Number of these candidate courses.
+            for (int j = 0; j < n; j++) { // Check all courses
+                if ((i>>j) & 1) // If course j already taken, ignore it.
                     continue;
-                ans=min(ans,1+solve(mask|j));                   
+                if ((i & pre[j]) == pre[j]) { // [TRICK] If all of course j's prerequistes are already taken.
+                    idx[nCandidates] = j;
+                    nCandidates ++;
+                    candidates = candidates | (1<<j);
+                }    
+            }
+            if (nCandidates <= k) { 
+                // Take all of these courses in one semester.
+                dp[i|candidates] = min(dp[i|candidates], dp[i]+1); 
+            } else { 
+                // Enumerate subsets of size k, Gosper's Hack. 
+                for (int s = (1<<k)-1; s < (1<<nCandidates);) {
+                    // Map bit-pattern "subsets of candidates" to bit-pattern "subsets of all courses"  
+                    int subsetk = 0;
+                    for (int j = 0; j < nCandidates; j++) {
+                        if ((s >> j) & 1)
+                            subsetk = subsetk | (1 << idx[j]);
+                    }
+                    dp[i|subsetk] = min(dp[i|subsetk], dp[i]+1);
+                    
+                    int x = s & -s; // WARNING: bit manipulation magic.
+                    int y = s + x;  // WARNING: bit manipulation magic.
+                    s = (((s & ~y) / x) >> 1) | y; // WARNING: bit manipulation magic.
+                }
             }
         }
-        else
-        {
-            ans=min(ans,1+solve(mask|j));
-        }
-        return dp[mask]=ans;
-    }
-    
-    public:
-    int minNumberOfSemesters(int N, vector<vector<int>>& d, int K) {
-        n=N;
-        k=K;
-        dp.assign(1<<n,-1);
-        adj.clear();
-        adj.resize(n);
-        for(int i=0; i<d.size(); i++)
-        {
-            d[i][0]--;
-            d[i][1]--;
-            adj[d[i][0]].push_back(d[i][1]);
-        }
-        return solve(0);
+        return dp[nStates-1];
     }
 };
