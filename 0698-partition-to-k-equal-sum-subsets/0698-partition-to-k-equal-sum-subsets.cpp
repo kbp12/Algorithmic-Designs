@@ -1,6 +1,6 @@
 class Solution {
 public:
-    bool backtrack(int i, int n, int k, int a[], int total[], int sum){
+    bool backtrack(int i, int n, int k, vector<int>& a, int total[], int sum){
         if(i==n){
             return true;
         }
@@ -27,12 +27,12 @@ public:
         return false;
     }
     
-    bool canPartitionKSubsets(vector<int>& nums, int k) {
-        int n = nums.size();
-        int a[n];
-        for(int i=0;i<n;i++){
-            a[i] = nums[i];
-        }
+    bool canPartitionKSubsets(vector<int>& a, int k) {
+        int n = a.size();
+        // int a[n];
+        // for(int i=0;i<n;i++){
+        //     a[i] = nums[i];
+        // }
         int sum = 0;
          if(k==1) return true;
          if(k>n) return false;
