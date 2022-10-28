@@ -22,8 +22,7 @@ public:
            return dp[t][m][c]=0;
         else 
              return dp[t][m][c]=2;      
-    }
-    else{
+    }else{
         bool flag=true;
         for(int i=0;i<graph[c].size();i++){
             if(graph[c][i]!=0){
@@ -39,7 +38,7 @@ public:
         else
             return dp[t][m][c]=1;
     }
-    return dp[t][m][c];
+    return -1;
   
 }
 int catMouseGame(vector<vector<int>>& graph) {
