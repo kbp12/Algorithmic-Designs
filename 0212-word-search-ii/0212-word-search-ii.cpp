@@ -55,10 +55,6 @@ public:
                 dfs(i,j,board,root , str);
             }
         }
-        vector<string>ans;
-        for(auto it:uset){
-            ans.push_back(it);
-        }
-        return ans;
+        return vector<string> (uset.begin() , uset.end());
     }
 };
