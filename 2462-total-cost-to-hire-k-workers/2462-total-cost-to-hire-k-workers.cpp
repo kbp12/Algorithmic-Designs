@@ -1,74 +1,42 @@
 class Solution {
 public:
-    long long totalCost(vector<int>& a, int k, int sz) {
-        int n = a.size();
-        multiset<int> pr,sf;
-        
-        if(2*sz >= n){
-            long long ans = 0;
-            vector<int> v = a;
-            sort(v.begin(),v.end());
-            for(int i=0;i<k;i++){
-                
-                ans += v[i];
-            }
-            return ans;
+    long long totalCost(vector<int>& costs, int k, int candidates) {
+        priority_queue<int,vector<int>,greater<int>>pqfront,pqback;
+        int n = costs.size();
+        int l = 0, r = n-1;
+        for(int i=0;i<candidates;i++){
+            pqfront.push(costs[i]);
         }
-        
-        for(int i=0;i<sz;i++){
-            
-            pr.insert(a[i]);
+        l = candidates;
+        r = max(candidates , n-candidates) -1;
+        for(int i=r+1;i<n;i++){
+            pqback.push(costs[i]);
         }
-        for(int j=n-1;j>=(n-sz);j--){
-            
-            sf.insert(a[j]);
-        }
-        
-        int i = sz-1;
-        int j = n-sz;
         long long ans = 0;
-        int cnt = 0;
-        while(i<j and cnt<k){
-            
-            
-            
-            int lf = (*pr.begin());
-            int rg = (*sf.begin());
-            
-            if(lf <= rg){
-                ans += lf;
-                pr.erase(pr.find(lf));
-                i++;
-                if(i<j) pr.insert(a[i]);
+        while(k--){
+            int a=INT_MAX,b=INT_MAX;
+            if(pqfront.size()){
+                a = pqfront.top(); pqfront.pop();
             }
-            
-            else{
-                ans += rg;
-                sf.erase(sf.find(rg));
-                j--;
-                if(j>i) sf.insert(a[j]);
-            
+            if(pqback.size()){
+                b = pqback.top(); pqback.pop();
             }
-            
-            cnt++;
-            
+            if(a<=b){
+                ans+=a;
+                pqback.push(b);
+                if(l<=r){
+                    pqfront.push(costs[l]);
+                    l++;
+                }
+            }else{
+                ans+=b;
+                pqfront.push(a);
+                if(l<=r){
+                    pqback.push(costs[r]);
+                    r--;
+                }
+            }
         }
-        int rem = k-cnt;
-        
-        vector<int> z;
-        for(auto x:pr) z.push_back(x);
-        for(auto x:sf) z.push_back(x);
-        
-        sort(z.begin(),z.end());
-
-        for(int p=0;p<rem;p++){
-
-            ans += z[p];
-        }
-        
-
-        
         return ans;
-          
     }
 };
