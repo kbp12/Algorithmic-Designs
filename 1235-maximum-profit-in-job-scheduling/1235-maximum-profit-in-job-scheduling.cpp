@@ -23,7 +23,6 @@ public:
                 }
             }
             dp[i] = max(dp[i] , dp[idx+1]+trans[i-1][2]);
-            //cout<<dp[i]<<" ";
         }
         return dp[n];
     }
