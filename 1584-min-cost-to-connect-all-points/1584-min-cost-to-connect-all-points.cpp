@@ -1,12 +1,9 @@
 class Solution {
 public:
-    
     int getParent(vector<int>& parents, int idx){
-        
         if(parents[idx]==idx){
             return idx;
         }
-        
         parents[idx] = getParent(parents, parents[parents[idx]]);
         
         return parents[idx];
@@ -21,7 +18,6 @@ public:
         int ans = 0;
         int edges = 0;
         priority_queue<vector<int>> pq;
-
         for(int i=0;i<n;i++){
             for(int j=i+1;j<n;j++){
                 if(i!=j){
@@ -29,8 +25,6 @@ public:
                 }
             }
         }
-        
-        
         while(edges!=n-1){
             
             vector<int> edge = pq.top();
