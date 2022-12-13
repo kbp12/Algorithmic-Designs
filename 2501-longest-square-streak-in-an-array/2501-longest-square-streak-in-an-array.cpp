@@ -3,7 +3,7 @@ public:
     int longestSquareStreak(vector<int>& nums) {
         sort(nums.begin() , nums.end());
         int n = nums.size();
-        map<long long , int>mpp;
+        unordered_map<long long , int>mpp;
         int ans = 0;
         for(int i=n-1;i>=0;i--){
             long long temp = nums[i];
