@@ -2,18 +2,12 @@ class Solution {
 public:
     int deleteGreatestValue(vector<vector<int>>& grid) {
         int n = grid.size() , m = grid[0].size();
-        vector<priority_queue<int>>v(n);
-        for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
-                v[i].push(grid[i][j]);
-            }
-        }
+        for(int i=0;i<n;i++) sort(grid[i].begin() , grid[i].end());
         int ans = 0;
-        while(m--){
+        for(int j=0;j<m;j++){
             int val = 0;
             for(int i=0;i<n;i++){
-                int f = v[i].top(); v[i].pop();
-                val = max(val , f);
+                val = max(val , grid[i][j]);
             }
             ans+=val;
         }
