@@ -18,8 +18,7 @@ public:
         for(int i=0;i<k;i++){
             sum_dp = (sum_dp+dp[i])%mod;
         }
-        sum_dp*=2; 
-        ans = (ans-sum_dp+mod)%mod; // subtracting the invalid ways
+        ans = (ans-2*sum_dp+mod)%mod; // subtracting the invalid ways
         return ans;
     }
 };
