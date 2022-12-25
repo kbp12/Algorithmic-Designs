@@ -1,26 +1,25 @@
 class Solution {
 public:
     int countPartitions(vector<int>& nums, int k) {
-        int n = nums.size();
-        //sort(nums.begin() , nums.end());
-        int ans=1, mod = 1e9+7;
-        for(int i=0;i<n;i++) ans = (ans*2)%mod;
-        vector<int>dp(k,0);
+        int n = nums.size() , ans=1, mod = 1e9+7;
+        for(int i=0;i<n;i++) ans = (ans*2)%mod; // total number of ways
+        
+        vector<int>dp(k,0); // to store number of ways to partition thte array where sum < k
         dp[0] = 1;
-        long long s = 0;
+        long long total_sum = 0;
         for(int i=0;i<n;i++){
-            s+=nums[i];
+            total_sum+=nums[i];
             for(int j=k-1;j>=nums[i];j--){
                 dp[j] = (dp[j] + dp[j - nums[i]])%mod;
             }
         }
-        if(s<2*k) return 0;
-        int sum = 0;
+        if(total_sum<2*k) return 0; 
+        int sum_dp = 0;
         for(int i=0;i<k;i++){
-            sum = (sum+dp[i])%mod;
+            sum_dp = (sum_dp+dp[i])%mod;
         }
-        sum*=2;
-        ans = (ans-sum+mod)%mod;
+        sum_dp*=2; 
+        ans = (ans-sum_dp+mod)%mod; // subtracting the invalid ways
         return ans;
     }
 };
