@@ -4,7 +4,7 @@ public:
         int n = nums.size() , ans=1, mod = 1e9+7;
         for(int i=0;i<n;i++) ans = (ans*2)%mod; // total number of ways
         
-        vector<int>dp(k,0); // to store number of ways to partition thte array where sum < k
+        vector<int>dp(k,0); // to store the number of ways of partition where sum < k
         dp[0] = 1;
         long long total_sum = 0;
         for(int i=0;i<n;i++){
