@@ -1,23 +1,26 @@
-    class Solution {
+class Solution {
 public:
-    int dfs(vector<vector<int>>& tree, string& s, int& ans, int idx) {
-        int first = 0, second = 0;
-        for (int i : tree[idx]) {
-            int curr = dfs(tree,s,ans,i);
-            if (s[idx] == s[i]) continue;
-            if(curr>first){ second = first; first = curr; }
-            else if(curr>second) second = curr;
+    int ans = 0;
+    int dfs(vector<int>adj[] , int node, string &s){
+        int max1 = 0, max2 = 0,temp;
+        for(auto child:adj[node]){
+            temp = dfs(adj,child,s);
+            if(s[node] != s[child]){
+                if(temp>max1){max2 = max1, max1 = temp;}
+                else max2 = max(max2 , temp);
+            }
         }
-        ans = max(ans,first+second+1);
-        return first+1;
+        ans = max(ans , max1 + max2 + 1);
+        return max1 + 1;
     }
-        
-    int longestPath(vector<int>& p, string s) {
-        int n = p.size(), ans = 0;
-        vector<vector<int>> tree(n, vector<int>());
-        for (int i=1;i<n;i++)
-            tree[p[i]].push_back(i);
-        dfs(tree, s, ans, 0);
+    
+    int longestPath(vector<int>& parent, string s) {
+        int n = parent.size();
+        vector<int> adj[n];
+        for(int i=1;i<n;i++){
+            adj[parent[i]].push_back(i);
+        }
+        dfs(adj,0,s);
         return ans;
     }
 };
