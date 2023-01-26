@@ -15,7 +15,7 @@ class Solution
     string caseSort(string str, int n)
     {
         // your code here
-        vector<int>big(26,0),small(26,0);
+        int big[26] = {0},small[26] = {0};
         for(int i=0;i<n;i++){
             if(str[i]>='a' and str[i]<='z'){
                 small[str[i]-'a']++;
