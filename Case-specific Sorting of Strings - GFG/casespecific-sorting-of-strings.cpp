@@ -15,33 +15,36 @@ class Solution
     string caseSort(string str, int n)
     {
         // your code here
-        int big[26] = {0},small[26] = {0};
-        for(int i=0;i<n;i++){
-            if(str[i]>='a' and str[i]<='z'){
-                small[str[i]-'a']++;
-            }else{
-                big[str[i]-'A']++;
+        vector<int> small;
+        vector<int> big;
+        //unordered_map<int,int> m;
+        for(int i=0;i<str.size();i++){
+            if(str[i]<='Z' and str[i]>='A'){
+                big.push_back(str[i]-'A');
+                //m[i]++;
+            }
+            else{
+                small.push_back(str[i]-'a');
             }
         }
-        for(int i=0;i<n;i++){
-            if(str[i]>='a' and str[i]<='z'){
-                for(int j=0;j<26;j++){
-                    if(small[j]){
-                        str[i] = 'a'+j;
-                        small[j]--;
-                        break;
-                    }
-                }
-            }else{
-                for(int j=0;j<26;j++){
-                    if(big[j]){
-                        str[i] = 'A'+j;
-                        big[j]--;
-                        break;
-                    }
-                }
+        
+        sort(big.begin(),big.end());
+        sort(small.begin(),small.end());
+        
+        int j=0,k=0;
+        
+        for(int i=0;i<str.size();i++){
+            if(str[i]<='Z' and str[i]>='A'){
+                str[i]=big[j]+'A';
+                j++;
+            }
+            else{
+                str[i]=small[k]+'a';
+                k++;
             }
         }
+        
+        
         return str;
     }
 };
